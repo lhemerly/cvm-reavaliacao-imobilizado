@@ -109,8 +109,8 @@ O painel analisa as principais companhias abertas brasileiras nos setores de min
 ### 1. Instalação das Dependências
 
 ```bash
-git clone https://github.com/<seu-usuario>/<seu-repositorio>.git
-cd <seu-repositorio>
+git clone https://github.com/lhemerly/cvm-reavaliacao-imobilizado.git
+cd cvm-reavaliacao-imobilizado
 python3 -m venv venv
 source venv/bin/activate  # No Windows: venv\Scripts\activate
 pip install -r requirements.txt
@@ -156,7 +156,7 @@ Para publicar este repositório em sua conta no GitHub:
 1. Crie um novo repositório vazio no GitHub (ex: `reavaliacao-imobilizado-cvm`).
 2. No terminal, na pasta do projeto descompactado, execute os comandos:
    ```bash
-   git remote add origin https://github.com/<seu-usuario>/reavaliacao-imobilizado-cvm.git
+   git remote add origin https://github.com/lhemerly/cvm-reavaliacao-imobilizado.git
    git branch -M main
    git push -u origin main
    ```
