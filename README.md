@@ -147,21 +147,6 @@ python3 scripts/generate_tcc_docx.py
 | **Klabin** | 58.253 | 103.768 | 2.157 | 3.841 | 572,5 | **58,0%** | 57,9% |
 | **Unigel** | 15.111 | 27.564 | 830 | 1.516 | 233,1 | **178,7%** | 166,1% |
 
----
-
-## 📤 Instruções para Envio ao GitHub
-
-Para publicar este repositório em sua conta no GitHub:
-
-1. Crie um novo repositório vazio no GitHub (ex: `reavaliacao-imobilizado-cvm`).
-2. No terminal, na pasta do projeto descompactado, execute os comandos:
-   ```bash
-   git remote add origin https://github.com/lhemerly/cvm-reavaliacao-imobilizado.git
-   git branch -M main
-   git push -u origin main
-   ```
-
----
 
 ## 📄 Licença
 
