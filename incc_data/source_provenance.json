@@ -1,0 +1,200 @@
+{
+  "source": "FGV, official monthly observations distributed by BCB SGS",
+  "observations": [
+    {
+      "file": "raw/sgs_7456_incc_m.csv",
+      "url": "https://www3.bcb.gov.br/sgspub/consultarvalores/consultarValoresSeries.do?method=downLoad",
+      "method": "GET",
+      "post_body": null,
+      "retrieval_completed_utc_from_local_file_mtime": "2026-10-04T13:27:10.131596+00:00",
+      "sha256": "f34b1753117d4006b84b50835c2c0ff42806ccd218e832ca292ad81f23d2a220",
+      "bytes": 4931,
+      "note": "Download URL is session-bound; preceding POST establishes series and period. HTML bytes preserved with original encoding.",
+      "request_started_utc": "2026-10-04T13:27:10.056369782Z",
+      "response_saved_utc": "2026-10-04T13:27:10.135268131Z",
+      "index": "INCC-M",
+      "sgs_code": 7456,
+      "selection_url": "https://www3.bcb.gov.br/sgspub/consultarvalores/consultarValoresSeries.do?method=consultarGraficoPorId&hdOidSeriesSelecionadas=7456",
+      "query_url": "https://www3.bcb.gov.br/sgspub/consultarvalores/consultarValoresSeries.do?method=consultarValores",
+      "post_parameters": {
+        "dataInicio": "01/01/1995",
+        "dataFim": "31/12/2025",
+        "selFuncao": 0,
+        "selTipoArqDownload": 1,
+        "hdOidSeriesSelecionadas": 7456,
+        "graficoEstatico": "true"
+      }
+    },
+    {
+      "file": "raw/sgs_189_igp_m.csv",
+      "url": "https://www3.bcb.gov.br/sgspub/consultarvalores/consultarValoresSeries.do?method=downLoad",
+      "method": "GET",
+      "post_body": null,
+      "retrieval_completed_utc_from_local_file_mtime": "2026-10-04T13:27:10.470412+00:00",
+      "sha256": "fed25b5b97135dbc79420c9e7c2a9f664213293bcad0e7aa7ed61a8e0d4ea3d0",
+      "bytes": 4975,
+      "note": "Download URL is session-bound; preceding POST establishes series and period. HTML bytes preserved with original encoding.",
+      "request_started_utc": "2026-10-04T13:27:10.391066005Z",
+      "response_saved_utc": "2026-10-04T13:27:10.472726174Z",
+      "index": "IGP-M",
+      "sgs_code": 189,
+      "selection_url": "https://www3.bcb.gov.br/sgspub/consultarvalores/consultarValoresSeries.do?method=consultarGraficoPorId&hdOidSeriesSelecionadas=189",
+      "query_url": "https://www3.bcb.gov.br/sgspub/consultarvalores/consultarValoresSeries.do?method=consultarValores",
+      "post_parameters": {
+        "dataInicio": "01/01/1995",
+        "dataFim": "31/12/2025",
+        "selFuncao": 0,
+        "selTipoArqDownload": 1,
+        "hdOidSeriesSelecionadas": 189,
+        "graficoEstatico": "true"
+      }
+    },
+    {
+      "file": "raw/sgs_7456_incc_m_jun1994_dec2022.csv",
+      "url": "https://www3.bcb.gov.br/sgspub/consultarvalores/consultarValoresSeries.do?method=downLoad",
+      "sha256": "ccf6535a7a54e1973a9d822a096b614c937603def3c131f62e4a1bcfa22790b9",
+      "bytes": 4515,
+      "response_saved_utc_from_mtime": "2026-10-04T14:55:54.295301+00:00",
+      "post_body": null,
+      "index": "INCC-M",
+      "sgs_code": 7456,
+      "selection_url": "https://www3.bcb.gov.br/sgspub/consultarvalores/consultarValoresSeries.do?method=consultarGraficoPorId&hdOidSeriesSelecionadas=7456",
+      "query_url": "https://www3.bcb.gov.br/sgspub/consultarvalores/consultarValoresSeries.do?method=consultarValores",
+      "post_parameters": {
+        "dataInicio": "01/06/1994",
+        "dataFim": "31/12/2022",
+        "selFuncao": 0,
+        "selTipoArqDownload": 1,
+        "hdOidSeriesSelecionadas": 7456,
+        "graficoEstatico": "true"
+      },
+      "request_started_utc": "2026-10-04T14:55:54.214619470Z",
+      "response_saved_utc": "2026-10-04T14:55:54.297528563Z"
+    },
+    {
+      "file": "raw/sgs_189_igp_m_jun1994_dec2022.csv",
+      "url": "https://www3.bcb.gov.br/sgspub/consultarvalores/consultarValoresSeries.do?method=downLoad",
+      "sha256": "c0665098ad5d3395ab1a6f7deb12e257e16c500ac444b459f81d22b194d5dc6e",
+      "bytes": 4585,
+      "response_saved_utc_from_mtime": "2026-10-04T14:55:55.054478+00:00",
+      "post_body": null,
+      "index": "IGP-M",
+      "sgs_code": 189,
+      "selection_url": "https://www3.bcb.gov.br/sgspub/consultarvalores/consultarValoresSeries.do?method=consultarGraficoPorId&hdOidSeriesSelecionadas=189",
+      "query_url": "https://www3.bcb.gov.br/sgspub/consultarvalores/consultarValoresSeries.do?method=consultarValores",
+      "post_parameters": {
+        "dataInicio": "01/06/1994",
+        "dataFim": "31/12/2022",
+        "selFuncao": 0,
+        "selTipoArqDownload": 1,
+        "hdOidSeriesSelecionadas": 189,
+        "graficoEstatico": "true"
+      },
+      "request_started_utc": "2026-10-04T14:55:54.976883254Z",
+      "response_saved_utc": "2026-10-04T14:55:55.056790837Z"
+    }
+  ],
+  "identity_and_methodology_evidence": [
+    {
+      "file": "raw/sgs_7456_metadata_basic.html",
+      "url": "https://www3.bcb.gov.br/sgspub/JSP/consultarmetadados/cmiDadosBasicos.jsp",
+      "method": "GET",
+      "post_body": null,
+      "retrieval_completed_utc_from_local_file_mtime": "2026-10-04T13:27:09.571615+00:00",
+      "sha256": "6e7bc1b793fc92c053f40985a2a1bc70883fc4d3d74156b75693ff40669ae689",
+      "bytes": 4920,
+      "note": "Download URL is session-bound; preceding POST establishes series and period. HTML bytes preserved with original encoding.",
+      "request_started_utc": "2026-10-04T13:27:09.514334796Z",
+      "response_saved_utc": "2026-10-04T13:27:09.574108191Z"
+    },
+    {
+      "file": "raw/sgs_7456_metadata_container.html",
+      "url": "https://www3.bcb.gov.br/sgspub/consultarmetadados/consultarMetadadosSeries.do?method=consultarMetadadosSeriesInternet&hdOidSerieSelecionada=7456",
+      "method": "GET",
+      "post_body": null,
+      "retrieval_completed_utc_from_local_file_mtime": "2026-10-04T13:27:09.511037+00:00",
+      "sha256": "a137b8cb868ed1d6dd3ffff5d05db21aa824da7648e6fcff1cff982c6cf03840",
+      "bytes": 11810,
+      "note": "Download URL is session-bound; preceding POST establishes series and period. HTML bytes preserved with original encoding.",
+      "request_started_utc": "2026-10-04T13:27:09.417758694Z",
+      "response_saved_utc": "2026-10-04T13:27:09.513530492Z"
+    },
+    {
+      "file": "raw/sgs_189_metadata_basic.html",
+      "url": "https://www3.bcb.gov.br/sgspub/JSP/consultarmetadados/cmiDadosBasicos.jsp",
+      "method": "GET",
+      "post_body": null,
+      "retrieval_completed_utc_from_local_file_mtime": "2026-10-04T13:27:09.724192+00:00",
+      "sha256": "d17dc2862a98f484a278461e2d7df15fefecedbdc46fae80da8963e90dd5d447",
+      "bytes": 4891,
+      "note": "Download URL is session-bound; preceding POST establishes series and period. HTML bytes preserved with original encoding.",
+      "request_started_utc": "2026-10-04T13:27:09.653975152Z",
+      "response_saved_utc": "2026-10-04T13:27:09.726689386Z"
+    },
+    {
+      "file": "raw/sgs_189_metadata_container.html",
+      "url": "https://www3.bcb.gov.br/sgspub/consultarmetadados/consultarMetadadosSeries.do?method=consultarMetadadosSeriesInternet&hdOidSerieSelecionada=189",
+      "method": "GET",
+      "post_body": null,
+      "retrieval_completed_utc_from_local_file_mtime": "2026-10-04T13:27:09.650360+00:00",
+      "sha256": "718cb865f0c1d6415aea22e2ce85d05cdec2a484f7088dc0bfba5124f8e86649",
+      "bytes": 11809,
+      "note": "Download URL is session-bound; preceding POST establishes series and period. HTML bytes preserved with original encoding.",
+      "request_started_utc": "2026-10-04T13:27:09.575050969Z",
+      "response_saved_utc": "2026-10-04T13:27:09.653115558Z"
+    },
+    {
+      "file": "raw/sgs_7447_metadata_basic.html",
+      "url": "https://www3.bcb.gov.br/sgspub/JSP/consultarmetadados/cmiDadosBasicos.jsp",
+      "method": "GET",
+      "post_body": null,
+      "retrieval_completed_utc_from_local_file_mtime": "2026-10-04T13:27:09.413770+00:00",
+      "sha256": "66a5c2e7b3c170960abc377207455c6fb15ba733b78310dd89e7a861a36b81c0",
+      "bytes": 4886,
+      "note": "Download URL is session-bound; preceding POST establishes series and period. HTML bytes preserved with original encoding.",
+      "request_started_utc": "2026-10-04T13:27:09.352252305Z",
+      "response_saved_utc": "2026-10-04T13:27:09.416852533Z"
+    },
+    {
+      "file": "raw/sgs_7447_metadata_container.html",
+      "url": "https://www3.bcb.gov.br/sgspub/consultarmetadados/consultarMetadadosSeries.do?method=consultarMetadadosSeriesInternet&hdOidSerieSelecionada=7447",
+      "method": "GET",
+      "post_body": null,
+      "retrieval_completed_utc_from_local_file_mtime": "2026-10-04T13:27:09.348835+00:00",
+      "sha256": "6b8325ac33ed517983d56d38a70b4933b4dd4243031f353a1e0f5798aede9327",
+      "bytes": 11810,
+      "note": "Download URL is session-bound; preceding POST establishes series and period. HTML bytes preserved with original encoding.",
+      "request_started_utc": "2026-10-04T13:27:09.264120603Z",
+      "response_saved_utc": "2026-10-04T13:27:09.351379846Z"
+    },
+    {
+      "file": "raw/fgv_incc_m_dec2021.html",
+      "url": "https://portal.fgv.br/noticias/incc-m-indice-nacional-custo-construcao-sobe-030-dezembro-2021",
+      "method": "GET",
+      "post_body": null,
+      "retrieval_completed_utc_from_local_file_mtime": "2026-10-04T13:24:53.274218+00:00",
+      "sha256": "f2498015e52a6dab31d8f402e7ada233eab56e6b5e6f02b5667f97a31a613393",
+      "bytes": 63074,
+      "note": "Download URL is session-bound; preceding POST establishes series and period. HTML bytes preserved with original encoding."
+    },
+    {
+      "file": "raw/fgv_incc_methodology.html",
+      "url": "https://portalibre.fgv.br/incc",
+      "sha256": "1daf5514f04d6b9f56e1d4ca75ca48946dddd31ab30bebada8ebdc385349f78b",
+      "bytes": 82801,
+      "response_saved_utc_from_mtime": "2026-10-04T14:56:12.623977+00:00",
+      "post_body": null
+    },
+    {
+      "file": "raw/fgv_igp_methodology.html",
+      "url": "https://portalibre.fgv.br/igp",
+      "sha256": "d7bc1bc1a6fed9b3af04bf7026716bb836ff5fa266ea847f19bf4dfb102a2c59",
+      "bytes": 81155,
+      "response_saved_utc_from_mtime": "2026-10-04T14:56:12.803524+00:00",
+      "post_body": null
+    }
+  ],
+  "retrieval_note": "api.bcb.gov.br DNS was unavailable. The official www3.bcb.gov.br SGS session GET/POST/GET route succeeded. Original response bytes retained. Timestamp field names distinguish exact request intervals from file-mtime completion records.",
+  "window_note": "SGS7456 starts September1994; July/August1994 are unavailable. No INCC192 or IGP10 substitution. SGS189 coversJune1994 onward in this package.",
+  "normalization": "Dates first day of reference month; rate in percentage points; number_index compounds from100 in month before first observation per index. No unrounded producer index levels claimed."
+}

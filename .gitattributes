@@ -1,0 +1,2 @@
+# Preserve source CSV bytes and hashes across checkouts (including Latin-1/CRLF).
+*.csv -text whitespace=cr-at-eol

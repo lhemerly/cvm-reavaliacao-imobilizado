@@ -1,0 +1,5 @@
+issuer,year,row_label,buildings,machinery,other,total,currency,unit,pdf,pdf_page,qualification
+Suzano,2019,Additions (base AD charge),255888,2123193,91170,2470251,BRL,thousands,Suzano_2019_tenq.pdf,71,Do not use alone as full annual depreciation
+Suzano,2019,Additions - fair value adjustment from business combination Fibria,63495,543468,17364,624327,BRL,thousands,Suzano_2019_tenq.pdf,71,Annual PPA PPE depreciation addition; policy3.1.3 and note30 PDF107 identify FV amortization as operating expense; acquired AD stock is separate11606879
+Suzano,2019,Fair value adjustment from business combination Facepa,5742,6481,95,12318,BRL,thousands,Suzano_2019_tenq.pdf,71,Adjustment AD movement; annual-period expense not independently isolated
+Suzano,2019,Fair value adjustment from business combination Ibema,0,593,0,593,BRL,thousands,Suzano_2019_tenq.pdf,71,Adjustment AD movement; annual-period expense not independently isolated

@@ -1,0 +1,50 @@
+Unigel Participações S.A.
+Demonstrações do resultado
+Exercícios findos em 31 de dezembro de
+
+(Em milhares de Reais)
+
+                                                                                      Controladora                          Consolidado
+                                                                    Nota              2019                2018              2019             2018
+
+
+Receita líquida                                                        23                  -                  -      3.322.706           3.393.839
+Custo das vendas                                                       26                  -                  -    (2.949.768)         (2.953.636)
+
+Lucro bruto                                                                                -                  -          372.938          440.203
+
+ Despesas de vendas                                                    26                 -                   -       (31.006)            (31.985)
+ Despesas gerais e administrativas                                     26           (3.540)             (7.743)      (106.792)            (98.703)
+ (Perda) reversões de valor recuperavel de contas a receber            10                 -                   -          3.285             (7.466)
+ Outras receitas (despesas), líquidas                                  25             (144)             (1.176)          8.557            (19.161)
+
+( Prejuizo) Lucro operacional                                                       (3.684)             (8.919)          246.982          282.888
+
+ Receitas financeiras                                                  24                 -                   -         13.231             55.920
+ Despesas financeiras                                                  24             (663)             (2.874)      (311.906)          (354.793)
+
+Despesas finaceiras, líquidas                                                         (663)             (2.874)      (298.675)          (298.873)
+
+ Equivalência patrimonial                                              16            31.608            (19.955)                    -                -
+
+Resultado antes do imposto de renda e contribuição social                            27.261            (31.748)          (51.693)         (15.985)
+
+ Imposto de renda e contribuição social:
+ Corrente                                                              14                  -               (11)          (16.643)         (27.264)
+ Diferido                                                              14                  -                  -            95.597           11.490
+
+                                                                                           -               (11)           78.954          (15.774)
+
+Lucro líquido (prejuízo) do exercício                                                27.261            (31.759)           27.261          (31.759)
+
+Lucro (prejuízo) por lote de mil ações - básico e diluído - R$         31             0,066             (0,077)
+
+Quantidade ponderada média de ações durante o período                          414.297.489         414.297.489
+
+ As notas explicativas da administração são parte integrante das demonstrações financeiras individuais e consolidadas.
+
+
+
+
+                                                                        40
+

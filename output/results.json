@@ -1,0 +1,512 @@
+{
+  "status": "Official unbalanced comparable accounting-proxy panel; no missing observation imputed",
+  "inference_status": "available",
+  "unit": "BRL millions",
+  "target_n": 80,
+  "income_n": 78,
+  "adjusted_n": 56,
+  "igpm_separately_calculable_n": 57,
+  "companies": [
+    {
+      "company": "CSN",
+      "n_adjusted": 10,
+      "n_income_official": 10,
+      "included_years": [
+        2016,
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "ppe_depreciation_mean": 2225.5861,
+      "incc_depreciation_adjusted_proxy_mean": 3910.3669654116593,
+      "net_income_mean": 2411.6984,
+      "incc_net_income_adjusted_proxy_mean": 726.9175345883409,
+      "erosion_ratio_means_pct": 69.8586881930037,
+      "n_adjusted_ebt_positive": 5,
+      "tax_expense_adjusted_ebt_ratio_pct": 25.689424438430137
+    },
+    {
+      "company": "Eletrobras",
+      "n_adjusted": 9,
+      "n_income_official": 10,
+      "included_years": [
+        2016,
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2023,
+        2024,
+        2025
+      ],
+      "ppe_depreciation_mean": 1705.617777777778,
+      "incc_depreciation_adjusted_proxy_mean": 8806.65303428494,
+      "net_income_mean": 6590.580444444445,
+      "incc_net_income_adjusted_proxy_mean": -510.4548120627181,
+      "erosion_ratio_means_pct": 107.74521783575236,
+      "n_adjusted_ebt_positive": 4,
+      "tax_expense_adjusted_ebt_ratio_pct": 39.61719081558848
+    },
+    {
+      "company": "Gerdau",
+      "n_adjusted": 0,
+      "n_income_official": 10,
+      "included_years": []
+    },
+    {
+      "company": "Klabin",
+      "n_adjusted": 10,
+      "n_income_official": 10,
+      "included_years": [
+        2016,
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "ppe_depreciation_mean": 1356.8885999999998,
+      "incc_depreciation_adjusted_proxy_mean": 2052.431045484375,
+      "net_income_mean": 1619.2381999999998,
+      "incc_net_income_adjusted_proxy_mean": 923.695754515625,
+      "erosion_ratio_means_pct": 42.954918274802,
+      "n_adjusted_ebt_positive": 8,
+      "tax_expense_adjusted_ebt_ratio_pct": 32.79421692321346
+    },
+    {
+      "company": "Petrobras",
+      "n_adjusted": 0,
+      "n_income_official": 10,
+      "included_years": []
+    },
+    {
+      "company": "Suzano",
+      "n_adjusted": 9,
+      "n_income_official": 10,
+      "included_years": [
+        2016,
+        2017,
+        2018,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "ppe_depreciation_mean": 2505.506666666666,
+      "incc_depreciation_adjusted_proxy_mean": 4669.186042102582,
+      "net_income_mean": 5070.304111111111,
+      "incc_net_income_adjusted_proxy_mean": 2906.624735675194,
+      "erosion_ratio_means_pct": 42.67356213790825,
+      "n_adjusted_ebt_positive": 6,
+      "tax_expense_adjusted_ebt_ratio_pct": 26.189893954916734
+    },
+    {
+      "company": "Unigel",
+      "n_adjusted": 8,
+      "n_income_official": 8,
+      "included_years": [
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024
+      ],
+      "ppe_depreciation_mean": 134.175,
+      "incc_depreciation_adjusted_proxy_mean": 301.43447693454794,
+      "net_income_mean": -374.751125,
+      "incc_net_income_adjusted_proxy_mean": -542.0106019345479,
+      "erosion_ratio_means_pct": null,
+      "n_adjusted_ebt_positive": 2,
+      "tax_expense_adjusted_ebt_ratio_pct": 27.280847310025557
+    },
+    {
+      "company": "Vale",
+      "n_adjusted": 10,
+      "n_income_official": 10,
+      "included_years": [
+        2016,
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "ppe_depreciation_mean": 10687.0,
+      "incc_depreciation_adjusted_proxy_mean": 20792.019331353044,
+      "net_income_mean": 37342.2557,
+      "incc_net_income_adjusted_proxy_mean": 27237.23636864695,
+      "erosion_ratio_means_pct": 27.060548812408914,
+      "n_adjusted_ebt_positive": 9,
+      "tax_expense_adjusted_ebt_ratio_pct": 23.164315686019982
+    }
+  ],
+  "years": [
+    {
+      "year": 2016,
+      "n_adjusted": 5,
+      "incc_factor_mean_pct": 100.296273927896,
+      "igpm_factor_mean_pct": 93.9922371395366,
+      "incc_delta_depreciation_sum": 11733.017377955166,
+      "incc_tax_counterfactual_34pct_sum": 3989.2259085047567,
+      "igpm_delta_depreciation_sum": 11317.346718342338,
+      "igpm_tax_counterfactual_34pct_sum": 3847.8978842363954
+    },
+    {
+      "year": 2017,
+      "n_adjusted": 6,
+      "incc_factor_mean_pct": 107.15033567563114,
+      "igpm_factor_mean_pct": 91.91704087747989,
+      "incc_delta_depreciation_sum": 12638.755891233262,
+      "incc_tax_counterfactual_34pct_sum": 4297.177003019309,
+      "igpm_delta_depreciation_sum": 11016.497527990516,
+      "igpm_tax_counterfactual_34pct_sum": 3745.6091595167754
+    },
+    {
+      "year": 2018,
+      "n_adjusted": 6,
+      "incc_factor_mean_pct": 107.71481578138963,
+      "igpm_factor_mean_pct": 98.0459356828355,
+      "incc_delta_depreciation_sum": 14103.717390758144,
+      "incc_tax_counterfactual_34pct_sum": 4795.263912857769,
+      "igpm_delta_depreciation_sum": 12886.376238620294,
+      "igpm_tax_counterfactual_34pct_sum": 4381.3679211309
+    },
+    {
+      "year": 2019,
+      "n_adjusted": 5,
+      "incc_factor_mean_pct": 114.3718275545559,
+      "igpm_factor_mean_pct": 111.92869292191547,
+      "incc_delta_depreciation_sum": 14848.854411660574,
+      "incc_tax_counterfactual_34pct_sum": 5048.610499964595,
+      "igpm_delta_depreciation_sum": 15022.92577656342,
+      "igpm_tax_counterfactual_34pct_sum": 5107.794764031563
+    },
+    {
+      "year": 2020,
+      "n_adjusted": 6,
+      "incc_factor_mean_pct": 188.87222624424794,
+      "igpm_factor_mean_pct": 221.29077579250017,
+      "incc_delta_depreciation_sum": 24428.900947930513,
+      "incc_tax_counterfactual_34pct_sum": 8305.826322296374,
+      "igpm_delta_depreciation_sum": 30112.39386551251,
+      "igpm_tax_counterfactual_34pct_sum": 10238.213914274254
+    },
+    {
+      "year": 2021,
+      "n_adjusted": 6,
+      "incc_factor_mean_pct": 201.40789955644664,
+      "igpm_factor_mean_pct": 256.32505960350034,
+      "incc_delta_depreciation_sum": 29714.268787620233,
+      "incc_tax_counterfactual_34pct_sum": 10102.851387790879,
+      "igpm_delta_depreciation_sum": 37963.77470951402,
+      "igpm_tax_counterfactual_34pct_sum": 12907.683401234768
+    },
+    {
+      "year": 2022,
+      "n_adjusted": 5,
+      "incc_factor_mean_pct": 97.26639040711223,
+      "igpm_factor_mean_pct": 126.14536972960795,
+      "incc_delta_depreciation_sum": 19561.16338001514,
+      "incc_tax_counterfactual_34pct_sum": 6650.795549205148,
+      "igpm_delta_depreciation_sum": 24570.641563484445,
+      "igpm_tax_counterfactual_34pct_sum": 8354.018131584711
+    },
+    {
+      "year": 2023,
+      "n_adjusted": 6,
+      "incc_factor_mean_pct": 145.7754000850161,
+      "igpm_factor_mean_pct": 164.999757163688,
+      "incc_delta_depreciation_sum": 25684.97294759933,
+      "incc_tax_counterfactual_34pct_sum": 8732.890802183772,
+      "igpm_delta_depreciation_sum": 29774.77808205498,
+      "igpm_tax_counterfactual_34pct_sum": 10123.424547898694
+    },
+    {
+      "year": 2024,
+      "n_adjusted": 6,
+      "incc_factor_mean_pct": 166.92577101178645,
+      "igpm_factor_mean_pct": 184.9351260940122,
+      "incc_delta_depreciation_sum": 29491.256804789948,
+      "incc_tax_counterfactual_34pct_sum": 10027.027313628583,
+      "igpm_delta_depreciation_sum": 33496.55897730353,
+      "igpm_tax_counterfactual_34pct_sum": 11388.830052283201
+    },
+    {
+      "year": 2025,
+      "n_adjusted": 5,
+      "incc_factor_mean_pct": 128.22038408688564,
+      "igpm_factor_mean_pct": 125.62604456524151,
+      "incc_delta_depreciation_sum": 27369.02598589257,
+      "incc_tax_counterfactual_34pct_sum": 9305.468835203475,
+      "igpm_delta_depreciation_sum": 28511.8157148525,
+      "igpm_tax_counterfactual_34pct_sum": 9694.01734304985
+    }
+  ],
+  "tests": {
+    "incc_depreciation": {
+      "n": 56,
+      "mean_ref": 3244.076196428571,
+      "mean_adjusted": 6986.467873668837,
+      "mean_difference": 3742.3916772402654,
+      "sd_difference": 4127.293371484783,
+      "t": 6.785438398971822,
+      "df": 55,
+      "p_t": 8.470820182926068e-09,
+      "wilcoxon_W": 0.0,
+      "p_wilcoxon": 7.547498213151496e-11,
+      "cohen_dz": 0.9067423467147308,
+      "inference_status": "available"
+    },
+    "incc_net_income": {
+      "n": 56,
+      "mean_ref": 9208.604910714286,
+      "mean_adjusted": 5466.213233474021,
+      "mean_difference": -3742.3916772402654,
+      "sd_difference": 4127.293371484783,
+      "t": -6.785438398971822,
+      "df": 55,
+      "p_t": 8.470820182926068e-09,
+      "wilcoxon_W": 0.0,
+      "p_wilcoxon": 7.547498213151496e-11,
+      "cohen_dz": -0.9067423467147308,
+      "inference_status": "available"
+    },
+    "igpm_depreciation": {
+      "n": 56,
+      "mean_ref": 3244.076196428571,
+      "mean_adjusted": 7434.66743168283,
+      "mean_difference": 4190.591235254259,
+      "sd_difference": 4759.72024141334,
+      "t": 6.588520272226472,
+      "df": 55,
+      "p_t": 1.7778428990982203e-08,
+      "wilcoxon_W": 0.0,
+      "p_wilcoxon": 7.547498213151496e-11,
+      "cohen_dz": 0.8804280551602157,
+      "inference_status": "available"
+    },
+    "igpm_net_income": {
+      "n": 56,
+      "mean_ref": 9208.604910714286,
+      "mean_adjusted": 5018.013675460026,
+      "mean_difference": -4190.59123525426,
+      "sd_difference": 4759.720241413339,
+      "t": -6.588520272226474,
+      "df": 55,
+      "p_t": 1.7778428990982014e-08,
+      "wilcoxon_W": 0.0,
+      "p_wilcoxon": 7.547498213151496e-11,
+      "cohen_dz": -0.880428055160216,
+      "inference_status": "available"
+    },
+    "incc_ebt": {
+      "n": 56,
+      "mean_ref": 11247.649839285716,
+      "mean_adjusted": 7505.258162045448,
+      "mean_difference": -3742.3916772402654,
+      "sd_difference": 4127.293371484783,
+      "t": -6.785438398971822,
+      "df": 55,
+      "p_t": 8.470820182926068e-09,
+      "wilcoxon_W": 0.0,
+      "p_wilcoxon": 7.547498213151496e-11,
+      "cohen_dz": -0.9067423467147308,
+      "inference_status": "available"
+    },
+    "gross_depreciable": {
+      "n": 41,
+      "mean_ref": 46917.8387804878,
+      "mean_adjusted": 82836.14751387168,
+      "mean_difference": 35918.308733383885,
+      "sd_difference": 47394.28020304804,
+      "t": 4.852682480522938,
+      "df": 40,
+      "p_t": 1.8911556501315047e-05,
+      "wilcoxon_W": 0.0,
+      "p_wilcoxon": 2.4249905341003518e-08,
+      "cohen_dz": 0.7578616782341995,
+      "inference_status": "available"
+    },
+    "tax_rate_signed_matched_positive": {
+      "n": 34,
+      "mean_ref": 18.535387734923003,
+      "mean_adjusted": 22.850524491143496,
+      "mean_difference": 4.315136756220497,
+      "sd_difference": 35.346782526141105,
+      "t": 0.7118428622631253,
+      "df": 33,
+      "p_t": 0.4815644906995335,
+      "wilcoxon_W": 82.0,
+      "p_wilcoxon": 0.00022933290390259753,
+      "cohen_dz": 0.1220800437219198,
+      "inference_status": "available"
+    }
+  },
+  "means": {
+    "net_income_official": 9208.604910714286,
+    "incc_net_income_adjusted_proxy": 5466.213233474021,
+    "ppe_depreciation": 3244.076196428571,
+    "incc_depreciation_adjusted_proxy": 6986.467873668837,
+    "incc_difference": 3742.3916772402654,
+    "erosion_ratio_means_pct": 40.6401589983078,
+    "tax_actual_cont_rate_mean_pct": 18.535387734923003,
+    "tax_actual_adjusted_rate_mean_pct": 22.850524491143496,
+    "tax_matched_positive_n": 34,
+    "adjusted_ebt_positive_n": 34,
+    "tax_ratio_sums_positive_adjusted_pct": 24.813969880443437,
+    "incc_net_income_after_assumed_tax_shield_proxy": 6738.626403735711
+  },
+  "totals": {
+    "incc": {
+      "delta_depreciation": 209573.93392545485,
+      "tax_counterfactual_assumed34pct": 71255.13753465467
+    },
+    "igpm": {
+      "delta_depreciation": 234673.10917423855,
+      "tax_counterfactual_assumed34pct": 79788.85711924112
+    }
+  },
+  "gaps": [
+    {
+      "company": "Eletrobras",
+      "year": 2022,
+      "reason": "INCC-M exact window unavailable; no series splice or truncation"
+    },
+    {
+      "company": "Gerdau",
+      "year": 2016,
+      "reason": "LAND NOT SEPARABLE; annual charge combines depreciation and depletion; gross may be impairment-adjusted; separate ROU excluded; no exact depreciable aggregate or physical age/life;gross depreciable basis blank because land mixed"
+    },
+    {
+      "company": "Gerdau",
+      "year": 2017,
+      "reason": "LAND NOT SEPARABLE; annual charge combines depreciation and depletion; gross may be impairment-adjusted; separate ROU excluded; no exact depreciable aggregate or physical age/life;gross depreciable basis blank because land mixed"
+    },
+    {
+      "company": "Gerdau",
+      "year": 2018,
+      "reason": "LAND NOT SEPARABLE; annual charge combines depreciation and depletion; gross may be impairment-adjusted; separate ROU excluded; no exact depreciable aggregate or physical age/life;gross depreciable basis blank because land mixed"
+    },
+    {
+      "company": "Gerdau",
+      "year": 2019,
+      "reason": "LAND NOT SEPARABLE; annual charge combines depreciation and depletion; gross may be impairment-adjusted; separate ROU excluded; no exact depreciable aggregate or physical age/life;gross depreciable basis blank because land mixed"
+    },
+    {
+      "company": "Gerdau",
+      "year": 2020,
+      "reason": "LAND NOT SEPARABLE; annual charge combines depreciation and depletion; gross may be impairment-adjusted; separate ROU excluded; no exact depreciable aggregate or physical age/life;gross depreciable basis blank because land mixed"
+    },
+    {
+      "company": "Gerdau",
+      "year": 2021,
+      "reason": "LAND NOT SEPARABLE; annual charge combines depreciation and depletion; gross may be impairment-adjusted; separate ROU excluded; no exact depreciable aggregate or physical age/life;gross depreciable basis blank because land mixed"
+    },
+    {
+      "company": "Gerdau",
+      "year": 2022,
+      "reason": "LAND NOT SEPARABLE; annual charge combines depreciation and depletion; gross may be impairment-adjusted; separate ROU excluded; no exact depreciable aggregate or physical age/life;gross depreciable basis blank because land mixed"
+    },
+    {
+      "company": "Gerdau",
+      "year": 2023,
+      "reason": "LAND NOT SEPARABLE; annual charge combines depreciation and depletion; gross may be impairment-adjusted; separate ROU excluded; no exact depreciable aggregate or physical age/life;gross depreciable basis blank because land mixed; English20F calls matching flow Depreciation, but accounting policy includes mining depletion within land/buildings. Label alone does not prove pure depreciation. Retained only as separate consumption sensitivity; excluded from primary comparable adjustment."
+    },
+    {
+      "company": "Gerdau",
+      "year": 2024,
+      "reason": "LAND NOT SEPARABLE; annual charge combines depreciation and depletion; gross may be impairment-adjusted; separate ROU excluded; no exact depreciable aggregate or physical age/life;gross depreciable basis blank because land mixed; English20F calls matching flow Depreciation, but accounting policy includes mining depletion within land/buildings. Label alone does not prove pure depreciation. Retained only as separate consumption sensitivity; excluded from primary comparable adjustment."
+    },
+    {
+      "company": "Gerdau",
+      "year": 2025,
+      "reason": "LAND NOT SEPARABLE; annual charge combines depreciation and depletion; gross may be impairment-adjusted; separate ROU excluded; no exact depreciable aggregate or physical age/life;gross depreciable basis blank because land mixed; English20F calls matching flow Depreciation, but accounting policy includes mining depletion within land/buildings. Label alone does not prove pure depreciation. Retained only as separate consumption sensitivity; excluded from primary comparable adjustment."
+    },
+    {
+      "company": "Petrobras",
+      "year": 2016,
+      "reason": "Petrobras reported accumulated stock is not verified total pure depreciation; requires consistent DDA/depletion treatment and impairment separation"
+    },
+    {
+      "company": "Petrobras",
+      "year": 2017,
+      "reason": "Petrobras reported accumulated stock is not verified total pure depreciation; requires consistent DDA/depletion treatment and impairment separation"
+    },
+    {
+      "company": "Petrobras",
+      "year": 2018,
+      "reason": "Petrobras reported accumulated stock is not verified total pure depreciation; requires consistent DDA/depletion treatment and impairment separation"
+    },
+    {
+      "company": "Petrobras",
+      "year": 2019,
+      "reason": "Petrobras reported accumulated stock is not verified total pure depreciation; requires consistent DDA/depletion treatment and impairment separation"
+    },
+    {
+      "company": "Petrobras",
+      "year": 2020,
+      "reason": "Petrobras reported accumulated stock is not verified total pure depreciation; requires consistent DDA/depletion treatment and impairment separation"
+    },
+    {
+      "company": "Petrobras",
+      "year": 2021,
+      "reason": "Petrobras reported accumulated stock is not verified total pure depreciation; requires consistent DDA/depletion treatment and impairment separation"
+    },
+    {
+      "company": "Petrobras",
+      "year": 2022,
+      "reason": "Petrobras reported accumulated stock is not verified total pure depreciation; requires consistent DDA/depletion treatment and impairment separation"
+    },
+    {
+      "company": "Petrobras",
+      "year": 2023,
+      "reason": "Petrobras reported accumulated stock is not verified total pure depreciation; requires consistent DDA/depletion treatment and impairment separation"
+    },
+    {
+      "company": "Petrobras",
+      "year": 2024,
+      "reason": "Petrobras reported accumulated stock is not verified total pure depreciation; requires consistent DDA/depletion treatment and impairment separation"
+    },
+    {
+      "company": "Petrobras",
+      "year": 2025,
+      "reason": "Petrobras reported accumulated stock is not verified total pure depreciation; requires consistent DDA/depletion treatment and impairment separation"
+    },
+    {
+      "company": "Suzano",
+      "year": 2019,
+      "reason": "Own-year consolidated PPE note15; no physical age/life claim; separate biological depletion and ROU excluded;ANNUAL CHARGE INCOMPLETE: depsection Additions2470251 plus PPAFibria additions624327 and FVFacepa12318/FVIbema593 separately; cannot label2470251 complete annualPPEdepreciation;strict annual depreciation left blank; disclosed base charge2470251 not full annualPPEcharge"
+    },
+    {
+      "company": "Unigel",
+      "year": 2016,
+      "reason": "Unigel annual inputs not yet located for this period in the investigated official sources"
+    },
+    {
+      "company": "Unigel",
+      "year": 2025,
+      "reason": "Unigel annual inputs not yet located for this period in the investigated official sources"
+    }
+  ],
+  "limits": "Amounts BRL millions; accounting stock/charge is not physical age. Comparative notes and issuer scopes documented. H1 is a scenario, not identified causal effect. H2 uses observed paired signed ETR, no nominal34% benchmark.34% only optional counterfactual tax shield. H3 theoretical; DFC/DMPL distributions alone do not establish physical capital erosion or forced financing. No full80 aggregate extrapolation."
+}

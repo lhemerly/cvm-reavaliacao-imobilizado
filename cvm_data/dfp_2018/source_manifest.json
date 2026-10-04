@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "year": 2018,
+  "source_url": "https://dados.cvm.gov.br/dados/CIA_ABERTA/DOC/DFP/DADOS/dfp_cia_aberta_2018.zip",
+  "retrieved_at_utc": "2026-10-04T17:18:16.891453+00:00",
+  "response_headers": {
+    "Server": "nginx/1.31.6",
+    "Date": "Sun, 04 Oct 2026 17:18:15 GMT",
+    "Content-Type": "application/zip",
+    "Content-Length": "10237924",
+    "Last-Modified": "Mon, 05 Aug 2024 20:30:25 GMT",
+    "Connection": "close",
+    "ETag": "\"66b13661-9c37e4\"",
+    "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+    "X-XSS-Protection": "1; mode=block",
+    "X-Frame-Options": "SAMEORIGIN",
+    "X-Content-Type-Options": "nosniff",
+    "Referrer-Policy": "strict-origin",
+    "X-Permitted-Cross-Domain-Policies": "master-only",
+    "Set-Cookie": "Path=/; HttpOnly; Secure",
+    "Permissions-Policy": "geolocation=(),midi=(),sync-xhr=(),microphone=(),camera=(),magnetometer=(),gyroscope=(),fullscreen=(self),payment=()",
+    "Accept-Ranges": "bytes"
+  },
+  "zip_sha256": "280dcf5acd7bdb529acc186c9a1195092a1e06cf1e33ddcdca0b11c31261296f",
+  "zip_filename": "dfp_cia_aberta_2018.zip",
+  "selected_cnpjs": [
+    "00.001.180/0001-26",
+    "05.303.439/0001-07",
+    "16.404.287/0001-55",
+    "33.000.167/0001-01",
+    "33.042.730/0001-04",
+    "33.592.510/0001-54",
+    "33.611.500/0001-19",
+    "89.637.490/0001-45"
+  ],
+  "selection": "all rows, versions, periods and currencies; consolidated BPA/DRE/DFC_MI",
+  "selected_files": [
+    {
+      "filename": "dfp_cia_aberta_BPA_con_2018.csv",
+      "source_zip_member": "dfp_cia_aberta_BPA_con_2018.csv",
+      "rows": 940,
+      "sha256": "3006983d42510e341674e4dc14c8e10b7a025cf0acd1888c7b83c9c34ff73438"
+    },
+    {
+      "filename": "dfp_cia_aberta_DRE_con_2018.csv",
+      "source_zip_member": "dfp_cia_aberta_DRE_con_2018.csv",
+      "rows": 572,
+      "sha256": "5dfb2010398bfc1d41140b7ab96f08e02ae406fb3d91c194a0fe681bf0f7b7b3"
+    },
+    {
+      "filename": "dfp_cia_aberta_DFC_MI_con_2018.csv",
+      "source_zip_member": "dfp_cia_aberta_DFC_MI_con_2018.csv",
+      "rows": 806,
+      "sha256": "abb8fd3987313789f6337ceccdc0343659c9a8960d9a0d9bbdfb46bd743d2f44"
+    }
+  ]
+}

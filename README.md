@@ -1,153 +1,63 @@
-# Impacto da Proibição da Reavaliação de Ativos Imobilizados no Lucro Real e no Dividend Yield
+# Reavaliação analítica do imobilizado e índices de preços
 
-[![Python](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](https://www.python.org/)
-[![CVM Data](https://img.shields.io/badge/CVM-DFP%202016--2025-green.svg)](https://dados.cvm.gov.br/)
-[![Status](https://img.shields.io/badge/Status-Complete%20Pipeline-success.svg)]()
+Pipeline documental de oito companhias, 2016–2025, usando demonstrações consolidadas oficiais da CVM, notas explicativas e índices mensais publicados pelo BCB/FGV. Valores monetários dos resultados estão em **R$ milhões**. O ajuste é um cenário contábil de reposição, sem estimar valor justo ou identificar efeitos causais da legislação.
 
-Repositório de pesquisa econométrica e contábil dedicada a quantificar o impacto da proibição legal da reavaliação de ativos imobilizados (Lei nº 11.638/2007, Lei nº 9.249/1995 e CPC 27 / IAS 16) sobre o **Lucro Líquido Real**, a **Carga Tributária Efetiva** e o **Dividend Yield** de companhias abertas brasileiras de capital intensivo listadas na B3.
+## Reprodução
 
----
-
-## 📌 Visão Geral do Projeto
-
-No Brasil, a adoção das normas IFRS manteve a restrição da reavaliação a valor justo para ativos imobilizados. Sob condições inflacionárias acumuladas (INCC e IGP-M), a mensuração pelo custo histórico gera uma **subavaliação estrutural da despesa de depreciação contábil**, resultando em:
-- **Ilusão de Lucro**: O Lucro Líquido societário é artificialmente inflado em relação ao Lucro Econômico.
-- **Tributação Oculta sobre o Capital**: Empresas pagam 34% (IRPJ/CSLL) sobre uma parcela de lucro que corresponde apenas à recomposição do capital físico.
-- **Ilusão de Dividend Yield**: A distribuição de proventos pode configurar devolução silenciosa de capital social (*capital erosion*).
-
-Este repositório implementa o pipeline analítico ponta a ponta para extração, tratamento, modelagem econométrica e geração de painéis consolidados em **CSV**, **Parquet**, **Excel** e **Docx (TCC)** para o período de **2016 a 2025**.
-
----
-
-## 🏢 Amostra de Empresas de Capital Intensivo
-
-O painel analisa as principais companhias abertas brasileiras nos setores de mineração, siderurgia, petróleo/gás, papel e celulose, utilidade pública e química:
-
-1. **Petróleo Brasileiro S.A. - PETROBRAS** (`00000000000191`)
-2. **VALE S.A.** (`33592510000154`)
-3. **Centrais Elétricas Brasileiras S.A. - ELETROBRAS** (`00001180000126`)
-4. **SUZANO S.A.** (`16404287000155`)
-5. **GERDAU S.A.** (`33611500000119`)
-6. **Companhia Siderúrgica Nacional - CSN** (`33042730000104`)
-7. **KLABIN S.A.** (`89637490000145`)
-8. **UNIGEL Participações S.A.** (`08395724000139`)
-
----
-
-## 🔬 Metodologia e Pipeline Econométrico
-
-```
-[Balanço Patrimonial (BPA) & DRE / DFC da CVM (2016-2025)]
-                        │
-                        ▼
-   [Extração de Custo Histórico Bruto & Depreciação]
-                        │
-                        ▼
-   [Estimativa de Vida Útil e Idade Média dos Ativos]
-   (Idade = Depreciação Acumulada / Depreciação do Exercício)
-                        │
-                        ▼
-   [Cálculo da Inflação Acumulada (INCC / IGP-M)]
-   (Lookup mensal no horizonte temporal da idade média)
-                        │
-                        ▼
-   [Valor de Reposição (Fair Value Proxy)]
-   (VR = Imobilizado Depreciável * (1 + Inflação Acumulada))
-                        │
-                        ▼
-   [Depreciação Real Ajustada & Erosão do Lucro]
-   (Deprec_Real = VR / Vida Útil Média)
-                        │
-                        ▼
-   [Cálculo do Tributo Inflacionário Oculto (34%)]
-                        │
-                        ▼
-   [Lucro Líquido Real & Alíquota Efetiva Real]
-```
-
----
-
-## 📂 Estrutura do Repositório
-
-```text
-.
-├── README.md                               # Documentação principal
-├── requirements.txt                        # Dependências do projeto
-├── .gitignore                              # Arquivos ignorados pelo Git
-├── cvm_imobilizado/                        # Pacote Python modular
-│   ├── __init__.py                         # Interface do pacote
-│   ├── config.py                           # Parâmetros e configurações
-│   ├── downloader.py                       # Mecanismo de download CVM/INCC
-│   ├── parser.py                           # Parser de DFP/ITR da CVM
-│   ├── notes_extractor.py                  # Extrator de notas explicativas
-│   ├── incc_provider.py                    # Séries temporais INCC e IGP-M
-│   ├── calculator.py                       # Motor econométrico de reavaliação
-│   ├── pipeline.py                         # Orquestrador do pipeline completo
-│   └── run_validation.py                   # Script de validação e relatórios
-├── cvm_data/                               # Arquivos DFP brutos CVM (2016-2025)
-│   ├── dfp_2016/ ... dfp_2025/             # BPA, DRE e DFC consolidados
-├── incc_data/                              # Base de séries históricas de inflação
-│   └── incc_mensal_1995_2025.csv           # Índices mensais INCC/IGP-M (1995-2025)
-├── output/                                 # Entregáveis gerados
-│   ├── painel_imobilizado_incc_igpm_2016_2025.csv
-│   ├── painel_imobilizado_incc_igpm_2016_2025.parquet
-│   ├── painel_imobilizado_incc_igpm_2016_2025.xlsx
-│   └── TCC_Luiz_Hemerly_Reavaliacao_Imobilizado.docx
-├── docs/                                   # Documentos e metodologia
-│   ├── Projeto_de_Pesquisa.md             # Proposta de dissertação / TCC
-│   ├── ROADMAP.md                          # Roadmap de engenharia / GitHub Pages
-│   └── METODOLOGIA_ETAPA_2_OBTENCAO_INCC.md # Detalhamento metodológico do INCC
-└── scripts/                                # Utilitários adicionais
-    ├── generate_tcc_docx.py                # Gerador do documento Word do TCC
-    └── build_full_document_v2.py           # Compilador das tabelas e formatações
-```
-
----
-
-## 🚀 Como Executar
-
-### 1. Instalação das Dependências
+Python 3.12 ou posterior, com as dependências de `requirements.txt`:
 
 ```bash
-git clone https://github.com/lhemerly/cvm-reavaliacao-imobilizado.git
-cd cvm-reavaliacao-imobilizado
-python3 -m venv venv
-source venv/bin/activate  # No Windows: venv\Scripts\activate
-pip install -r requirements.txt
+python -m pip install -r requirements.txt
+python -m cvm_imobilizado.run_validation --refresh
+python -m unittest discover -s tests -v
 ```
 
-### 2. Executar o Pipeline Analítico
+`--refresh` baixa os ZIPs públicos atuais da CVM, seleciona as linhas dos oito CNPJs e grava manifestos com URL, horário UTC, cabeçalhos, hash do ZIP e hashes dos CSVs selecionados. A seleção preserva todas as versões, períodos e moedas, e identifica a linha no arquivo original. O parser aplica os filtros analíticos depois. Os ZIPs completos ficam no cache local e não são versionados.
+
+Para reproduzir exatamente os resultados versionados, usando os CSVs e índices preservados no checkout e sem rede:
 
 ```bash
-# Execução do pipeline completo e geração do painel
-python3 -m cvm_imobilizado.pipeline
-
-# Validação estatística e exibição dos resumos
-python3 cvm_imobilizado/run_validation.py
+python -m cvm_imobilizado.run_validation --output-dir /tmp/cvm-reproducao
 ```
 
-### 3. Gerar o Relatório do TCC / Dissertação (.docx)
+Não execute `run_validation.py` como arquivo avulso: o comando de módulo preserva as importações do pacote. Os antigos geradores DOCX com tabelas fixas estão somente em `demos/historical/scripts/` e não geram os resultados oficiais.
 
-```bash
-python3 scripts/generate_tcc_docx.py
-```
+## Fontes e seleção
 
----
+| Companhia | CNPJ da emissora |
+|---|---|
+| Vale | 33.592.510/0001-54 |
+| Petrobras | 33.000.167/0001-01 |
+| Gerdau | 33.611.500/0001-19 |
+| CSN | 33.042.730/0001-04 |
+| Suzano | 16.404.287/0001-55 |
+| Klabin | 89.637.490/0001-45 |
+| Eletrobras/Axia | 00.001.180/0001-26 |
+| Unigel Participações | 05.303.439/0001-07 |
 
-## 📊 Principais Resultados Encontrados (Média 2016–2025)
+- CVM: `REAL`, consolidado, `ÚLTIMO`, fechamento em 31/12 e DRE/DFC de 01/01 a 31/12. Seleção de uma versão completa por companhia e demonstração, sem misturar versões por conta.
+- DRE: `3.05` resultado antes do financeiro e tributos; `3.07` LAIR; `3.08` provisão de IR/CSLL com sinal original; `3.11` lucro/prejuízo consolidado. O resultado total pode incluir operações descontinuadas.
+- Notas: `data/notes/notes_inputs.csv`, unidades e universo declarados; `field_provenance.csv` liga cada campo ao PDF, URL, página, hash e transformação. Suplementos anuais documentados de Unigel 2017–2019 completam campos ausentes na DFP estruturada, sem substituir valores presentes.
+- Índices: INCC-M **SGS 7456** e IGP-M **SGS 189**. A série 7447 é IGP-10. CSVs originais e metadados em `incc_data/raw/`, com hashes em `source_provenance.json`. `rebuild_normalized.py` recompõe a tabela normalizada.
 
-| Empresa | Imobilizado Bruto Médio (R$ Milhões) | Valor Reposição INCC (R$ Milhões) | Depreciação Contábil (R$ Milhões) | Depreciação Real INCC (R$ Milhões) | Tributo Oculto Médio (R$ Milhões) | Erosão do Lucro (%) | Alíquota Efetiva Real (%) |
-| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **Petrobras** | 1.138.753 | 2.071.726 | 50.903 | 92.688 | 14.206,7 | **55,7%** | 55,7% |
-| **Vale** | 540.471 | 977.375 | 21.649 | 39.181 | 5.960,9 | **42,9%** | 48,3% |
-| **Eletrobras** | 218.590 | 396.772 | 6.443 | 11.680 | 1.780,7 | **38,1%** | 46,0% |
-| **Suzano** | 110.887 | 200.169 | 3.920 | 7.077 | 1.073,6 | **53,4%** | 54,7% |
-| **Gerdau** | 78.849 | 142.273 | 3.877 | 6.997 | 1.060,7 | **89,1%** | 111,6% |
-| **CSN** | 70.338 | 127.269 | 3.240 | 5.853 | 888,3 | **87,0%** | 101,4% |
-| **Klabin** | 58.253 | 103.768 | 2.157 | 3.841 | 572,5 | **58,0%** | 57,9% |
-| **Unigel** | 15.111 | 27.564 | 830 | 1.516 | 233,1 | **178,7%** | 166,1% |
+Os PDFs das notas podem ser recuperados e ter seus hashes conferidos por `python data/notes/download_sources.py --help`. As extrações documentadas e os localizadores estão versionados; consulte [proveniência das notas](docs/notes_provenance.md).
 
+## Modelo e cobertura
 
-## 📄 Licença
+A grade solicitada mantém **80 posições empresa-ano**, inclusive lacunas. Valores ausentes permanecem vazios, com motivo. Não são zero, não recebem dados simulados e não são extrapolados para o total do painel.
 
-Este projeto é desenvolvido para fins de pesquisa acadêmica e análise financeira no âmbito do Mestrado em Controladoria e Finanças.
+A razão de depreciação acumulada pelo encargo anual das mesmas classes é uma **proxy contábil**, sem medir idade física. A janela tem o inteiro mais próximo de `12 × AD/Dep` meses, até dezembro do exercício. Cada taxa mensal precisa estar disponível; não há truncamento ou emenda de séries. `Dep_ajustada = Dep × fator`; o cenário mantém a provisão tributária declarada fixa. A coluna de benefício fiscal assumido a 34% é uma sensibilidade separada, sem afirmar imposto efetivamente pago ou economia de caixa.
+
+O painel principal contém **78 resultados anuais e 56 ajustes INCC-M comparáveis**. Petrobras e Gerdau permanecem na grade, com ajuste principal indisponível por mistura de depreciação/exaustão/impairment. Suzano 2019 tem encargo não conciliado; Eletrobras 2022 requer julho/agosto de 1994 indisponíveis no INCC-M. O IGP-M cobre essa janela e pode ser consultado separadamente, sem acrescentá-la aos pares principais. Unigel 2016 e 2025 permanecem indisponíveis nas fontes recuperadas.
+
+## Resultados gerados
+
+`output/painel_imobilizado_incc_igpm_2016_2025.csv` contém a grade, entradas, qualificações, fatores e cenários. `DRE_Oficial.csv` contém a base financeira selecionada. `results.json` e `h2_paired.json` são calculados pelo pipeline; suas médias, totais e testes não são constantes do texto. XLSX e Parquet são exportações locais opcionais.
+
+H2 compara a razão tributária **observada e ajustada no mesmo empresa-ano**, com os dois denominadores positivos e benefícios tributários mantidos com sinal. A referência não é uma alíquota nominal de 34%. Os testes e intervalos são exploratórios por observação, sem ajuste de dependência por companhia/tempo.
+
+H3 permanece teórica. DFC/DMPL e divulgação de proventos podem apoiar proxies após conciliação, mas o ajuste do lucro sozinho não demonstra devolução de capital, investimento de manutenção insuficiente ou endividamento obrigatório.
+
+## Histórico preservado
+
+`demos/historical/` guarda o código, dados de exemplo, índices aproximados, resultados e geradores de tabelas fixas do commit `cd22470b6759fd375ac5dcf3a5fe75261c79c0b1`. Esse material é demonstração histórica e não constitui evidência empírica oficial. O pipeline ativo não o carrega.

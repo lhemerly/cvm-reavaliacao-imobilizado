@@ -1,0 +1,23 @@
+{
+  "company": "Unigel",
+  "year": 2019,
+  "pdf": "unigel_cvm_2019_v1.pdf",
+  "pdf_sha256": "9189ae1139ebcd831fc103d5389c653f9fa53f77698a86f1bb27dd692ae9287d",
+  "url": "https://www.rad.cvm.gov.br/ENETWeb/frmDownloadDocumento.aspx?Tela=ext&descTipo=IPE&CodigoInstituicao=1&numProtocolo=892165&numSequencia=416899&numVersao=1",
+  "physical_pdf_page": 41,
+  "printed_page": 40,
+  "column": "third numeric column, consolidated2019",
+  "source_currency": "BRL",
+  "source_unit": "thousands",
+  "normalization_multiplier": 0.001,
+  "source_values": {
+    "ebit": 246982,
+    "ebt": -51693,
+    "income_tax_current_signed": -16643,
+    "income_tax_deferred_signed": 95597,
+    "income_tax_signed": 78954,
+    "net_income": 27261
+  },
+  "balance_check": "-51693 + (-16643 + 95597) = 27261",
+  "verification": "Direct pdftotext extraction from original official PDF; no parser broadening or prior-results imputation"
+}

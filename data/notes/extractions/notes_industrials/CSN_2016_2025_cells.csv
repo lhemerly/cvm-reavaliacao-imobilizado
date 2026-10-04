@@ -1,0 +1,68 @@
+issuer,year,class,gross_cost,accumulated_depreciation,net,annual_ppe_depreciation,currency,unit,scope,pdf,pdf_page,note,qualification
+CSN,2016,Terrenos,264629,0,264629,0,BRL,thousands,consolidated,CSN_2016_DFP.pdf,84,11,Parsed official note11; class totals checked; impairment not assumed zero
+CSN,2016,Edificações e infraestrutura,3637903,822224,2815679,116760,BRL,thousands,consolidated,CSN_2016_DFP.pdf,84,11,Parsed official note11; class totals checked; impairment not assumed zero
+CSN,2016,Máquinas equipamentos e instalações,20712371,8342741,12369630,1096668,BRL,thousands,consolidated,CSN_2016_DFP.pdf,84,11,Parsed official note11; class totals checked; impairment not assumed zero
+CSN,2016,Móveis e utensílios,173821,140658,33163,5822,BRL,thousands,consolidated,CSN_2016_DFP.pdf,84,11,Parsed official note11; class totals checked; impairment not assumed zero
+CSN,2016,Obras em andamento,2260864,0,2260864,0,BRL,thousands,consolidated,CSN_2016_DFP.pdf,84,11,Parsed official note11; class totals checked; impairment not assumed zero
+CSN,2016,Outros,676529,284615,391914,34929,BRL,thousands,consolidated,CSN_2016_DFP.pdf,84,11,Parsed official note11; class totals checked; impairment not assumed zero
+CSN,2017,Terrenos,279740,0,279740,0,BRL,thousands,consolidated,CSN_2017_DFP.pdf,66,11,Parsed official note11; class totals checked; impairment not assumed zero
+CSN,2017,Edificações e infraestrutura,3819929,1022982,2796947,156580,BRL,thousands,consolidated,CSN_2017_DFP.pdf,66,11,Parsed official note11; class totals checked; impairment not assumed zero
+CSN,2017,Máquinas equipamentos e instalações,21674362,9688442,11985920,1174852,BRL,thousands,consolidated,CSN_2017_DFP.pdf,66,11,Parsed official note11; class totals checked; impairment not assumed zero
+CSN,2017,Móveis e utensílios,164152,131049,33103,5656,BRL,thousands,consolidated,CSN_2017_DFP.pdf,66,11,Parsed official note11; class totals checked; impairment not assumed zero
+CSN,2017,Obras em andamento,2475935,0,2475935,0,BRL,thousands,consolidated,CSN_2017_DFP.pdf,66,11,Parsed official note11; class totals checked; impairment not assumed zero
+CSN,2017,Outros,669096,275902,393194,43105,BRL,thousands,consolidated,CSN_2017_DFP.pdf,66,11,Parsed official note11; class totals checked; impairment not assumed zero
+CSN,2018,Terrenos,287854,0,287854,0,BRL,thousands,consolidated,CSN_2018_DFP.pdf,66,11,Parsed official note11; class totals checked; impairment not assumed zero
+CSN,2018,Edificações e infraestrutura,3751429,1072791,2678638,134534,BRL,thousands,consolidated,CSN_2018_DFP.pdf,66,11,Parsed official note11; class totals checked; impairment not assumed zero
+CSN,2018,Máquinas equipamentos e instalações,22426782,10739511,11687271,1043188,BRL,thousands,consolidated,CSN_2018_DFP.pdf,66,11,Parsed official note11; class totals checked; impairment not assumed zero
+CSN,2018,Móveis e utensílios,165331,134801,30530,5394,BRL,thousands,consolidated,CSN_2018_DFP.pdf,66,11,Parsed official note11; class totals checked; impairment not assumed zero
+CSN,2018,Obras em andamento,3282436,0,3282436,0,BRL,thousands,consolidated,CSN_2018_DFP.pdf,66,11,Parsed official note11; class totals checked; impairment not assumed zero
+CSN,2018,Outros,355768,275633,80135,22456,BRL,thousands,consolidated,CSN_2018_DFP.pdf,66,11,Parsed official note11; class totals checked; impairment not assumed zero
+CSN,2019,Terrenos,226949,0,226949,0,BRL,thousands,consolidated,CSN_2019_DFP.pdf,67,11,Parsed official note11; class totals checked; impairment not assumed zero
+CSN,2019,Edificações e infraestrutura,4250471,1188233,3062238,135313,BRL,thousands,consolidated,CSN_2019_DFP.pdf,67,11,Parsed official note11; class totals checked; impairment not assumed zero
+CSN,2019,Máquinas equipamentos e instalações,24372514,11768895,12603619,1241026,BRL,thousands,consolidated,CSN_2019_DFP.pdf,67,11,Parsed official note11; class totals checked; impairment not assumed zero
+CSN,2019,Móveis e utensílios,170229,141774,28455,5999,BRL,thousands,consolidated,CSN_2019_DFP.pdf,67,11,Parsed official note11; class totals checked; impairment not assumed zero
+CSN,2019,Obras em andamento,3217052,0,3217052,0,BRL,thousands,consolidated,CSN_2019_DFP.pdf,67,11,Parsed official note11; class totals checked; impairment not assumed zero
+CSN,2019,Direito de uso,531044,58699,472345,58843,BRL,thousands,consolidated,CSN_2019_DFP.pdf,67,11,Parsed official note11; class totals checked; impairment not assumed zero
+CSN,2019,Outros,386144,295858,90286,25038,BRL,thousands,consolidated,CSN_2019_DFP.pdf,67,11,Parsed official note11; class totals checked; impairment not assumed zero
+CSN,2020,Terrenos,257686,0,257686,458,BRL,thousands,consolidated,CSN_2020_DFP.pdf,83,11,Parsed official note11; class totals checked; impairment not assumed zero
+CSN,2020,Edificações e infraestrutura,4752412,2074847,2677565,780395,BRL,thousands,consolidated,CSN_2020_DFP.pdf,83,11,Parsed official note11; class totals checked; impairment not assumed zero
+CSN,2020,Máquinas equipamentos e instalações,26213225,13755842,12457383,1564525,BRL,thousands,consolidated,CSN_2020_DFP.pdf,83,11,Parsed official note11; class totals checked; impairment not assumed zero
+CSN,2020,Móveis e utensílios,182974,156677,26297,6747,BRL,thousands,consolidated,CSN_2020_DFP.pdf,83,11,Parsed official note11; class totals checked; impairment not assumed zero
+CSN,2020,Obras em andamento,3680322,0,3680322,0,BRL,thousands,consolidated,CSN_2020_DFP.pdf,83,11,Parsed official note11; class totals checked; impairment not assumed zero
+CSN,2020,Direito de uso,634786,118118,516668,62680,BRL,thousands,consolidated,CSN_2020_DFP.pdf,83,11,Parsed official note11; class totals checked; impairment not assumed zero
+CSN,2020,Outros,414705,314403,100302,24517,BRL,thousands,consolidated,CSN_2020_DFP.pdf,83,11,Parsed official note11; class totals checked; impairment not assumed zero
+CSN,2021,Terrenos,349495,0,349495,0,BRL,thousands,consolidated,CSN_2021_DFP.pdf,96,11,Parsed official note11; class totals checked; impairment not assumed zero
+CSN,2021,Edificações e infraestrutura,5358388,2338454,3019934,163911,BRL,thousands,consolidated,CSN_2021_DFP.pdf,96,11,Parsed official note11; class totals checked; impairment not assumed zero
+CSN,2021,Máquinas equipamentos e instalações,29348048,15547160,13800888,1845757,BRL,thousands,consolidated,CSN_2021_DFP.pdf,96,11,Parsed official note11; class totals checked; impairment not assumed zero
+CSN,2021,Móveis e utensílios,190847,161810,29037,7043,BRL,thousands,consolidated,CSN_2021_DFP.pdf,96,11,Parsed official note11; class totals checked; impairment not assumed zero
+CSN,2021,Obras em andamento,3643682,0,3643682,0,BRL,thousands,consolidated,CSN_2021_DFP.pdf,96,11,Parsed official note11; class totals checked; impairment not assumed zero
+CSN,2021,Direito de uso,754606,172782,581824,68068,BRL,thousands,consolidated,CSN_2021_DFP.pdf,96,11,Parsed official note11; class totals checked; impairment not assumed zero
+CSN,2021,Outros,445870,339596,106274,27878,BRL,thousands,consolidated,CSN_2021_DFP.pdf,96,11,Parsed official note11; class totals checked; impairment not assumed zero
+CSN,2022,Terrenos,485107,0,485107,0,BRL,thousands,consolidated,CSN_2022_DFP.pdf,110,11,Parsed official note11; class totals checked; impairment not assumed zero
+CSN,2022,Edificações e infraestrutura,8741911,4290797,4451114,218941,BRL,thousands,consolidated,CSN_2022_DFP.pdf,110,11,Parsed official note11; class totals checked; impairment not assumed zero
+CSN,2022,Máquinas equipamentos e instalações,36373386,19848093,16525293,2334638,BRL,thousands,consolidated,CSN_2022_DFP.pdf,110,11,Parsed official note11; class totals checked; impairment not assumed zero
+CSN,2022,Móveis e utensílios,284863,243981,40882,7245,BRL,thousands,consolidated,CSN_2022_DFP.pdf,110,11,Parsed official note11; class totals checked; impairment not assumed zero
+CSN,2022,Obras em andamento,4025550,0,4025550,0,BRL,thousands,consolidated,CSN_2022_DFP.pdf,110,11,Parsed official note11; class totals checked; impairment not assumed zero
+CSN,2022,Direito de uso,1057566,412686,644880,104382,BRL,thousands,consolidated,CSN_2022_DFP.pdf,110,11,Parsed official note11; class totals checked; impairment not assumed zero
+CSN,2022,Outros,643304,445685,197619,54495,BRL,thousands,consolidated,CSN_2022_DFP.pdf,110,11,Parsed official note11; class totals checked; impairment not assumed zero
+CSN,2023,Terrenos,525307,0,525307,0,BRL,thousands,consolidated,CSN_2023_DFP.pdf,91,11,Parsed official note11; class totals checked; impairment not assumed zero
+CSN,2023,Edificações e infraestrutura,9110694,4578375,4532319,282612,BRL,thousands,consolidated,CSN_2023_DFP.pdf,91,11,Parsed official note11; class totals checked; impairment not assumed zero
+CSN,2023,Máquinas equipamentos e instalações,39597174,22177652,17419522,2600210,BRL,thousands,consolidated,CSN_2023_DFP.pdf,91,11,Parsed official note11; class totals checked; impairment not assumed zero
+CSN,2023,Móveis e utensílios,297916,251999,45917,10245,BRL,thousands,consolidated,CSN_2023_DFP.pdf,91,11,Parsed official note11; class totals checked; impairment not assumed zero
+CSN,2023,Obras em andamento,4425130,0,4425130,0,BRL,thousands,consolidated,CSN_2023_DFP.pdf,91,11,Parsed official note11; class totals checked; impairment not assumed zero
+CSN,2023,Direito de uso,1126977,452191,674786,165952,BRL,thousands,consolidated,CSN_2023_DFP.pdf,91,11,Parsed official note11; class totals checked; impairment not assumed zero
+CSN,2023,Outros,860818,556341,304477,69220,BRL,thousands,consolidated,CSN_2023_DFP.pdf,91,11,Parsed official note11; class totals checked; impairment not assumed zero
+CSN,2024,Terrenos,592716,0,592716,0,BRL,thousands,consolidated,CSN_2024_DFP.pdf,80,11,Parsed official note11; class totals checked; impairment not assumed zero
+CSN,2024,Edificações e infraestrutura,9664220,4891708,4772512,290195,BRL,thousands,consolidated,CSN_2024_DFP.pdf,80,11,Parsed official note11; class totals checked; impairment not assumed zero
+CSN,2024,Máquinas equipamentos e instalações,43110825,25141759,17969066,2981703,BRL,thousands,consolidated,CSN_2024_DFP.pdf,80,11,Parsed official note11; class totals checked; impairment not assumed zero
+CSN,2024,Móveis e utensílios,372094,267039,105055,11689,BRL,thousands,consolidated,CSN_2024_DFP.pdf,80,11,Parsed official note11; class totals checked; impairment not assumed zero
+CSN,2024,Obras em andamento,5881336,0,5881336,0,BRL,thousands,consolidated,CSN_2024_DFP.pdf,80,11,Parsed official note11; class totals checked; impairment not assumed zero
+CSN,2024,Direito de uso,1269089,512275,756814,231394,BRL,thousands,consolidated,CSN_2024_DFP.pdf,80,11,Parsed official note11; class totals checked; impairment not assumed zero
+CSN,2024,Outros,922119,573595,348524,54260,BRL,thousands,consolidated,CSN_2024_DFP.pdf,80,11,Parsed official note11; class totals checked; impairment not assumed zero
+CSN,2025,Terrenos,629025,0,629025,0,BRL,thousands,consolidated,CSN_2025_DFP.pdf,92,11,Parsed official note11; class totals checked; impairment not assumed zero
+CSN,2025,Edificações e infraestrutura,10287766,5413957,4873809,347648,BRL,thousands,consolidated,CSN_2025_DFP.pdf,92,11,Parsed official note11; class totals checked; impairment not assumed zero
+CSN,2025,Máquinas equipamentos e instalações,43130128,24673210,18456918,3184112,BRL,thousands,consolidated,CSN_2025_DFP.pdf,92,11,Parsed official note11; class totals checked; impairment not assumed zero
+CSN,2025,Móveis e utensílios,385341,294289,91052,19799,BRL,thousands,consolidated,CSN_2025_DFP.pdf,92,11,Parsed official note11; class totals checked; impairment not assumed zero
+CSN,2025,Obras em andamento,7947457,0,7947457,0,BRL,thousands,consolidated,CSN_2025_DFP.pdf,92,11,Parsed official note11; class totals checked; impairment not assumed zero
+CSN,2025,Direito de uso,1711164,752148,959016,283840,BRL,thousands,consolidated,CSN_2025_DFP.pdf,92,11,Parsed official note11; class totals checked; impairment not assumed zero
+CSN,2025,Outros,1923505,961613,961892,120756,BRL,thousands,consolidated,CSN_2025_DFP.pdf,92,11,Parsed official note11; class totals checked; impairment not assumed zero

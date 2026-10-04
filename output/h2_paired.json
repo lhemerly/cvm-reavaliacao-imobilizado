@@ -1,0 +1,35 @@
+{
+  "hypothesis": "Within company-year adjusted effective tax ratio exceeds observed ratio; fixed disclosed signed provision. No comparison against nominal34%.",
+  "n": 34,
+  "firms": {
+    "CSN": 5,
+    "Eletrobras": 4,
+    "Klabin": 8,
+    "Suzano": 6,
+    "Unigel": 2,
+    "Vale": 9
+  },
+  "inference_status": "available",
+  "reference_mean_pct": 18.535387734923003,
+  "adjusted_mean_pct": 22.850524491143496,
+  "mean_difference_pp": 4.315136756220497,
+  "median_reference_pct": 18.894693310050734,
+  "median_adjusted_pct": 25.768408570272825,
+  "median_paired_difference_pp": 5.370706995355998,
+  "sd_paired_difference_pp": 35.346782526141105,
+  "positive_difference_count": 30,
+  "negative_difference_count": 4,
+  "zero_difference_count": 0,
+  "negative_tax_expense_count": 4,
+  "t_statistic": 0.7118428622631253,
+  "paired_t_two_sided_p": 0.4815644906995335,
+  "paired_t_greater_p": 0.24078224534976675,
+  "observation_level_t95ci_mean_difference_pp": [
+    -8.017938711032517,
+    16.64821222347351
+  ],
+  "wilcoxon_two_sided_p": 0.00022933290390259753,
+  "wilcoxon_greater_p": 0.00011466645195129876,
+  "wilcoxon_W_twosided": 82.0,
+  "limits": "Exploratory observation-level tests, no firm/time clustering or causal legal inference. Tax benefits retained. Both EBT denominators positive. Fixed provision creates denominator mechanism, not cash-tax evidence."
+}

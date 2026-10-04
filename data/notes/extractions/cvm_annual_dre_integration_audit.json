@@ -1,0 +1,44 @@
+{
+  "scope": "CVM structured DFP plus explicitly documented unstructured annual income inputs; does not assert complete PPE model",
+  "available_income_observations": 78,
+  "missing_after_recheck": [
+    {
+      "company": "Unigel",
+      "year": 2016
+    },
+    {
+      "company": "Unigel",
+      "year": 2025
+    }
+  ],
+  "evidence": [
+    {
+      "company": "Unigel",
+      "year": 2017,
+      "ebit_brl_million": 242.485,
+      "ebt_brl_million": -110.051,
+      "tax_signed_brl_million": -1.113,
+      "net_income_brl_million": -60.42,
+      "discontinued_income_brl_million": 50.744,
+      "source_pdf": "/home/luizh/Documents/Codex/2026-10-04/task-5/work/empirical/notes_eletrobras_unigel/unigel_cvm_2018_v1.pdf",
+      "pdf_sha256": "ff71c2cc57236291771359b347c0df1053d63d9c0ce381355318a28d805060a0",
+      "pdf_page": 34,
+      "source_url": "https://www.rad.cvm.gov.br/ENET/frmDownloadDocumento.aspx?Tela=ext&descTipo=IPE&CodigoInstituicao=1&numProtocolo=892164&numSequencia=416898&numVersao=1",
+      "consolidated_column": "2017 (fourth numeric column)"
+    },
+    {
+      "company": "Unigel",
+      "year": 2018,
+      "ebit_brl_million": 282.888,
+      "ebt_brl_million": -15.985,
+      "tax_signed_brl_million": -15.774,
+      "net_income_brl_million": -31.759,
+      "discontinued_income_brl_million": 0.0,
+      "source_pdf": "/home/luizh/Documents/Codex/2026-10-04/task-5/work/empirical/notes_eletrobras_unigel/unigel_cvm_2018_v1.pdf",
+      "pdf_sha256": "ff71c2cc57236291771359b347c0df1053d63d9c0ce381355318a28d805060a0",
+      "pdf_page": 34,
+      "source_url": "https://www.rad.cvm.gov.br/ENET/frmDownloadDocumento.aspx?Tela=ext&descTipo=IPE&CodigoInstituicao=1&numProtocolo=892164&numSequencia=416898&numVersao=1",
+      "consolidated_column": "2018 (third numeric column)"
+    }
+  ]
+}

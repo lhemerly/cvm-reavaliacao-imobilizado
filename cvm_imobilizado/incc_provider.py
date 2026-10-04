@@ -1,227 +1,229 @@
-"""
-Módulo de Obtenção e Processamento do INCC (Índice Nacional de Custo da Construção - FGV):
-- Coleta de dados via API do BACEN (SGS Séries 7447 e 192) / FGV IBRE
-- Fallback para base histórica mensal oficial de alta resolução (1995 - 2025)
-- Cálculo do Fator de Acumulação Retroativa baseado na Idade Média do Ativo
-- Comparabilidade com IGP-M e IPCA
-Autor: Luiz Ernesto Campos Hemerly | Orientador: Marcel Jaroski Barbosa
-"""
+"""Official FGV monthly inflation, distributed through BCB SGS.
 
-import os
+SGS 7456 is INCC-M; SGS 189 is IGP-M. No curated or simulated fallback
+is permitted. Packaged response bytes and provenance are checked before use.
+A window from base month t to reference month T compounds t+1 through T.
+"""
+from __future__ import annotations
+
+import csv
+import hashlib
 import json
-import urllib.request
-import urllib.error
-import numpy as np
-import pandas as pd
-from datetime import datetime
-from typing import Dict, List, Optional, Tuple, Union
+import math
+from datetime import datetime, timezone
+from pathlib import Path
+from urllib.parse import urlencode
+from urllib.request import HTTPCookieProcessor, Request, build_opener
+from http.cookiejar import CookieJar
 
-# Séries SGS do Banco Central do Brasil
-SGS_SERIE_INCC_M = 7447      # INCC-M - Variação mensal (%)
-SGS_SERIE_INCC_DI = 192      # INCC-DI - Variação mensal (%)
-SGS_SERIE_IGP_M = 189        # IGP-M - Variação mensal (%)
-SGS_SERIE_IPCA = 433         # IPCA - Variação mensal (%)
+import pandas as pd
+
+SGS_SERIE_INCC_M = 7456
+SGS_SERIE_IGP_M = 189
+# The BCB catalog calls 192 generic INCC. It is not used as an INCC-M fallback.
+SGS_SERIE_INCC = 192
+SUPPORTED_INDICES = {"INCC-M": SGS_SERIE_INCC_M, "IGP-M": SGS_SERIE_IGP_M}
+DEFAULT_DATA_DIR = Path(__file__).resolve().parents[1] / "incc_data"
+SGS_URL = "https://www3.bcb.gov.br/sgspub/consultarvalores/consultarValoresSeries.do"
+
+
+class IndexCoverageError(ValueError):
+    """The requested monthly window contains unpublished/unavailable observations."""
+
+    def __init__(self, index: str, missing_months: list[str]):
+        self.index = index
+        self.missing_months = missing_months
+        super().__init__(f"{index}: missing monthly observations: {', '.join(missing_months)}")
+
+
+def _read_official_csv(payload: bytes, code: int) -> dict[str, float]:
+    rows = list(csv.reader(payload.decode("utf-8-sig").splitlines(), delimiter=";"))
+    identity = {7456: "INCC-M", 189: "IGP-M"}[code]
+    if not rows or len(rows[0]) != 2 or not rows[0][1].startswith(f"{code} - "):
+        raise ValueError(f"Official CSV does not identify SGS {code}")
+    if identity not in rows[0][1] or "Monthly % var." not in rows[0][1]:
+        raise ValueError(f"Unexpected identity or unit for SGS {code}")
+    if not rows[-1] or rows[-1] != ["Source", "FGV"]:
+        raise ValueError("Official CSV must identify FGV as source")
+    result = {}
+    for row in rows[1:-1]:
+        if len(row) != 2:
+            raise ValueError("Malformed official monthly observation")
+        month = datetime.strptime(row[0], "%m/%Y").strftime("%Y-%m")
+        rate = float(row[1])
+        if month in result or not math.isfinite(rate) or rate <= -100:
+            raise ValueError(f"Invalid or duplicate observation: {month}")
+        result[month] = rate
+    if not result:
+        raise ValueError("No official observations retrieved")
+    return result
+
+
+def normalize_sources(data_dir: str | Path) -> pd.DataFrame:
+    """Verify original bytes and merge overlapping official responses without guessing."""
+    base = Path(data_dir)
+    manifest = json.loads((base / "source_provenance.json").read_text())
+    series: dict[str, dict[str, float]] = {name: {} for name in SUPPORTED_INDICES}
+    for item in manifest["observations"]:
+        name = item["index"]
+        if name not in SUPPORTED_INDICES or item["sgs_code"] != SUPPORTED_INDICES[name]:
+            raise ValueError("Unsupported series in provenance manifest")
+        relative = Path(item["file"])
+        if relative.is_absolute() or ".." in relative.parts:
+            raise ValueError("Source paths must remain inside the data package")
+        payload = (base / relative).read_bytes()
+        if hashlib.sha256(payload).hexdigest() != item["sha256"]:
+            raise ValueError(f"Source hash mismatch: {relative}")
+        for month, rate in _read_official_csv(payload, item["sgs_code"]).items():
+            if month in series[name] and series[name][month] != rate:
+                raise ValueError(f"Conflicting official observations: {name} {month}")
+            series[name][month] = rate
+    rows = []
+    for name, observations in series.items():
+        if not observations:
+            raise ValueError(f"Missing official series: {name}")
+        level = 100.0
+        first = pd.Period(min(observations), freq="M")
+        base_month = str(first - 1)
+        for month, rate in sorted(observations.items()):
+            level *= 1 + rate / 100
+            rows.append({"date": month + "-01", "index": name,
+                         "sgs_code": SUPPORTED_INDICES[name], "monthly_pct": rate,
+                         "number_index": level, "index_base_month": base_month})
+    return pd.DataFrame(rows)
+
 
 class INCCProvider:
-    """
-    Provedor de dados e calculadora de inflação de custos de construção (INCC/FGV).
-    """
+    """Load the audited offline package; refresh only on an explicit retrieval call."""
 
-    def __init__(self, cache_dir: str = "./incc_data"):
-        self.cache_dir = cache_dir
-        os.makedirs(self.cache_dir, exist_ok=True)
-        self._df_incc_monthly = None
-        self._load_or_initialize_series()
+    def __init__(self, cache_dir: str | Path | None = None):
+        self.cache_dir = Path(cache_dir) if cache_dir is not None else DEFAULT_DATA_DIR
+        derived = normalize_sources(self.cache_dir)
+        saved = pd.read_csv(self.cache_dir / "monthly_official.csv")
+        pd.testing.assert_frame_equal(saved, derived, check_exact=False,
+                                      rtol=1e-12, atol=1e-12)
+        self._monthly = derived
+        self._df_incc_monthly = self.get_monthly_series()
 
-    def _get_curated_historical_rates(self) -> Dict[int, List[float]]:
-        """
-        Retorna as taxas mensais históricas do INCC-M (em % ao mês, jan-dez)
-        compiladas a partir das séries históricas oficiais FGV IBRE / BACEN (1995 a 2025).
-        """
-        # Taxas mensais percentuais aproximadas oficiais [Jan, Fev, Mar, Abr, Mai, Jun, Jul, Ago, Set, Out, Nov, Dez]
-        rates = {
-            1995: [1.85, 1.42, 1.65, 2.10, 2.85, 3.40, 2.15, 1.30, 0.95, 0.85, 0.70, 0.65],
-            1996: [0.95, 0.80, 0.75, 0.65, 1.10, 1.45, 0.85, 0.70, 0.60, 0.55, 0.45, 0.40],
-            1997: [0.55, 0.48, 0.52, 0.61, 1.25, 1.10, 0.72, 0.58, 0.49, 0.42, 0.38, 0.35],
-            1998: [0.42, 0.38, 0.40, 0.50, 0.95, 0.85, 0.55, 0.45, 0.35, 0.30, 0.28, 0.25],
-            1999: [0.35, 0.45, 0.68, 0.82, 1.40, 1.25, 0.95, 0.80, 0.75, 0.65, 0.58, 0.52],
-            2000: [0.45, 0.40, 0.55, 0.65, 1.85, 1.60, 0.90, 0.75, 0.60, 0.50, 0.42, 0.38],
-            2001: [0.48, 0.42, 0.58, 0.72, 2.10, 1.95, 1.15, 0.85, 0.70, 0.62, 0.50, 0.45],
-            2002: [0.52, 0.48, 0.65, 0.80, 2.45, 2.10, 1.35, 1.10, 1.05, 1.15, 1.40, 1.55],
-            2003: [1.60, 1.25, 1.15, 1.35, 2.80, 2.25, 1.10, 0.85, 0.70, 0.60, 0.50, 0.42],
-            2004: [0.55, 0.50, 0.68, 0.85, 2.35, 2.15, 1.10, 0.85, 0.68, 0.58, 0.48, 0.40],
-            2005: [0.45, 0.40, 0.52, 0.65, 1.75, 1.35, 0.70, 0.55, 0.45, 0.38, 0.32, 0.28],
-            2006: [0.32, 0.28, 0.35, 0.48, 1.45, 1.10, 0.55, 0.42, 0.35, 0.30, 0.25, 0.22],
-            2007: [0.30, 0.28, 0.36, 0.52, 1.65, 1.30, 0.62, 0.48, 0.40, 0.35, 0.32, 0.28],
-            2008: [0.45, 0.42, 0.58, 0.85, 2.40, 2.35, 1.30, 0.95, 0.75, 0.65, 0.55, 0.42],
-            2009: [0.32, 0.25, 0.30, 0.42, 0.95, 0.70, 0.35, 0.28, 0.25, 0.22, 0.18, 0.15],
-            2010: [0.38, 0.35, 0.55, 0.78, 1.95, 1.45, 0.68, 0.50, 0.42, 0.35, 0.30, 0.28],
-            2011: [0.40, 0.38, 0.52, 0.75, 1.85, 1.40, 0.65, 0.52, 0.45, 0.38, 0.32, 0.29],
-            2012: [0.42, 0.36, 0.50, 0.72, 1.80, 1.35, 0.68, 0.55, 0.48, 0.35, 0.30, 0.28],
-            2013: [0.45, 0.40, 0.58, 0.82, 1.90, 1.50, 0.72, 0.58, 0.45, 0.38, 0.35, 0.30],
-            2014: [0.48, 0.42, 0.55, 0.75, 1.70, 1.25, 0.60, 0.48, 0.40, 0.35, 0.30, 0.28],
-            2015: [0.55, 0.48, 0.65, 0.85, 1.80, 1.45, 0.75, 0.58, 0.45, 0.38, 0.35, 0.32],
-            2016: [0.42, 0.38, 0.50, 0.68, 1.55, 1.20, 0.65, 0.48, 0.38, 0.32, 0.28, 0.25],
-            2017: [0.28, 0.25, 0.32, 0.45, 1.15, 0.90, 0.42, 0.30, 0.25, 0.20, 0.18, 0.15],
-            2018: [0.25, 0.22, 0.30, 0.40, 1.10, 0.85, 0.45, 0.35, 0.28, 0.22, 0.20, 0.18],
-            2019: [0.28, 0.25, 0.32, 0.42, 1.18, 0.92, 0.48, 0.36, 0.28, 0.25, 0.22, 0.19],
-            2020: [0.30, 0.28, 0.40, 0.55, 0.90, 1.25, 1.10, 1.20, 1.15, 1.28, 1.10, 0.85],
-            2021: [0.92, 1.05, 1.25, 1.10, 2.10, 2.20, 1.45, 1.25, 1.10, 0.95, 0.80, 0.65],
-            2022: [0.68, 0.55, 0.72, 1.15, 1.85, 1.65, 0.95, 0.70, 0.55, 0.45, 0.35, 0.30],
-            2023: [0.32, 0.28, 0.35, 0.42, 0.85, 0.70, 0.38, 0.25, 0.20, 0.18, 0.15, 0.12],
-            2024: [0.35, 0.32, 0.40, 0.52, 1.35, 1.15, 0.55, 0.42, 0.35, 0.30, 0.25, 0.22],
-            2025: [0.32, 0.30, 0.38, 0.48, 1.25, 1.05, 0.50, 0.38, 0.32, 0.28, 0.22, 0.20]
-        }
-        return rates
+    def get_monthly_series(self, index: str = "INCC-M") -> pd.DataFrame:
+        """Compatibility columns, with a disclosed base before the first rate."""
+        self._check_index(index)
+        frame = self._monthly[self._monthly["index"] == index].copy()
+        frame["DATA"] = pd.to_datetime(frame["date"])
+        frame["ANO"] = frame["DATA"].dt.year
+        frame["MES"] = frame["DATA"].dt.month
+        frame["TAXA_MENSAL_PCT"] = frame["monthly_pct"]
+        frame["TAXA_MENSAL_DECIMAL"] = frame["monthly_pct"] / 100
+        frame["NUMERO_INDICE"] = frame["number_index"]
+        return frame[["DATA", "ANO", "MES", "TAXA_MENSAL_PCT",
+                      "TAXA_MENSAL_DECIMAL", "NUMERO_INDICE", "index_base_month"]]
 
-    def _load_or_initialize_series(self):
-        """Carrega do cache ou constrói a tabela mensal de índices."""
-        cache_file = os.path.join(self.cache_dir, "incc_mensal_1995_2025.csv")
-        if os.path.exists(cache_file):
-            df = pd.read_csv(cache_file)
-            df['DATA'] = pd.to_datetime(df['DATA'])
-            self._df_incc_monthly = df
-            return
+    @staticmethod
+    def _check_index(index: str):
+        if index not in SUPPORTED_INDICES:
+            raise ValueError(f"Unsupported index {index!r}; choose INCC-M or IGP-M")
 
-        # Construir série histórica
-        rates_dict = self._get_curated_historical_rates()
-        rows = []
-        
-        idx_num = 100.0  # Base 100 em Jan/1995
-        for yr, m_rates in sorted(rates_dict.items()):
-            for m_idx, rate_pct in enumerate(m_rates, start=1):
-                dt_str = f"{yr}-{m_idx:02d}-01"
-                dt = pd.to_datetime(dt_str)
-                taxa_decimal = rate_pct / 100.0
-                idx_num = idx_num * (1.0 + taxa_decimal)
-                rows.append({
-                    'DATA': dt,
-                    'ANO': yr,
-                    'MES': m_idx,
-                    'TAXA_MENSAL_PCT': rate_pct,
-                    'TAXA_MENSAL_DECIMAL': taxa_decimal,
-                    'NUMERO_INDICE': idx_num
-                })
-
-        df = pd.DataFrame(rows)
-        df.to_csv(cache_file, index=False)
-        self._df_incc_monthly = df
-
-    def fetch_live_from_bcb_sgs(self, serie_id: int = SGS_SERIE_INCC_M) -> Optional[pd.DataFrame]:
-        """
-        Tenta buscar a série atualizada em tempo real via API REST do Banco Central (SGS).
-        Retorna DataFrame com as colunas ['data', 'valor'] se houver conexão.
-        """
-        url = f"https://api.bcb.gov.br/dados/serie/bcdata.sgs.{serie_id}/dados?formato=json"
-        try:
-            req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
-            with urllib.request.urlopen(req, timeout=10) as resp:
-                data = json.loads(resp.read().decode('utf-8'))
-                df_api = pd.DataFrame(data)
-                df_api['data'] = pd.to_datetime(df_api['data'], format='%d/%m/%Y')
-                df_api['valor'] = pd.to_numeric(df_api['valor'], errors='coerce')
-                return df_api
-        except Exception as e:
-            # Fallback transparente para base local offline
-            return None
-
-    def get_monthly_series(self) -> pd.DataFrame:
-        """Retorna o DataFrame completo com a série mensal do INCC."""
-        return self._df_incc_monthly.copy()
-
-    def get_annual_rates(self) -> pd.DataFrame:
-        """Calcula e retorna a taxa anual acumulada do INCC para cada ano."""
-        df = self._df_incc_monthly.copy()
-        annual_records = []
-        for yr, group in df.groupby('ANO'):
-            # Acumulado = prod(1 + taxa) - 1
-            fator_ano = np.prod(1.0 + group['TAXA_MENSAL_DECIMAL'])
-            taxa_anual_pct = (fator_ano - 1.0) * 100.0
-            idx_fim = group['NUMERO_INDICE'].iloc[-1]
-            annual_records.append({
-                'ANO': yr,
-                'TAXA_ANUAL_PCT': taxa_anual_pct,
-                'FATOR_ANUAL': fator_ano,
-                'INDICE_DEZEMBRO': idx_fim
-            })
-        return pd.DataFrame(annual_records)
-
-    def calculate_cumulative_inflation(
-        self,
-        reference_year: int,
-        age_years: float,
-        reference_month: int = 12
-    ) -> Dict[str, float]:
-        """
-        Calcula o Fator de Acumulação do INCC (Passo 2 da Metodologia)
-        retroativamente à data-base a partir da Idade Média do Ativo.
-
-        Fórmula:
-        Fator = Prod(1 + i_m) para os últimos (12 * Idade_Media) meses até Dezembro/Ano_Ref
-              = Indice(Ano_Ref, Dez) / Indice(Ano_Ref - Idade_Media)
-        """
-        if np.isnan(age_years) or age_years <= 0:
-            return {
-                'INFLACAO_ACUM_INCC_PCT': 0.0,
-                'FATOR_INCC': 1.0,
-                'MESES_RETROATIVOS': 0,
-                'DATA_INICIO_CORRECAO': f"{reference_year}-12-31"
-            }
-
-        df = self._df_incc_monthly.copy()
-        
-        # Localizar o ponto final (Dezembro do ano de referência)
-        end_dt = pd.to_datetime(f"{reference_year}-{reference_month:02d}-01")
-        sub_df = df[df['DATA'] <= end_dt].sort_values('DATA')
-
-        if sub_df.empty:
-            return {
-                'INFLACAO_ACUM_INCC_PCT': 0.0,
-                'FATOR_INCC': 1.0,
-                'MESES_RETROATIVOS': 0,
-                'DATA_INICIO_CORRECAO': f"{reference_year}-12-31"
-            }
-
-        num_months = int(round(age_years * 12.0))
-        num_months = max(1, min(num_months, len(sub_df)))
-
-        # Selecionar a janela de N meses retroativos
-        window_df = sub_df.iloc[-num_months:]
-        
-        start_date = window_df['DATA'].iloc[0].strftime('%Y-%m-%d')
-        fator_acumulado = np.prod(1.0 + window_df['TAXA_MENSAL_DECIMAL'])
-        inflacao_pct = (fator_acumulado - 1.0) * 100.0
-
-        return {
-            'INFLACAO_ACUM_INCC_PCT': inflacao_pct,
-            'FATOR_INCC': fator_acumulado,
-            'MESES_RETROATIVOS': num_months,
-            'DATA_INICIO_CORRECAO': start_date
-        }
-
-    def get_comparison_summary(self, years: List[int]) -> pd.DataFrame:
-        """
-        Retorna tabela resumo comparando INCC, IGP-M e IPCA nos anos selecionados.
-        """
-        # Séries históricas anuais consolidadas
-        igpm_anual = {
-            2016: 7.17, 2017: -0.52, 2018: 7.54, 2019: 7.30, 2020: 23.14,
-            2021: 17.78, 2022: 5.45, 2023: -3.18, 2024: 6.50, 2025: 4.80
-        }
-        ipca_anual = {
-            2016: 6.29, 2017: 2.95, 2018: 3.75, 2019: 4.31, 2020: 4.52,
-            2021: 10.06, 2022: 5.79, 2023: 4.62, 2024: 4.40, 2025: 3.90
-        }
-
-        df_ann = self.get_annual_rates()
+    def get_annual_rates(self, index: str = "INCC-M") -> pd.DataFrame:
+        """Only complete January–December years count as annual observations."""
         records = []
-        for yr in years:
-            row_incc = df_ann[df_ann['ANO'] == yr]
-            incc_val = row_incc['TAXA_ANUAL_PCT'].iloc[0] if not row_incc.empty else np.nan
-            records.append({
-                'ANO': yr,
-                'INCC_ANUAL_PCT': incc_val,
-                'IGPM_ANUAL_PCT': igpm_anual.get(yr, np.nan),
-                'IPCA_ANUAL_PCT': ipca_anual.get(yr, np.nan)
-            })
-        return pd.DataFrame(records)
+        for year, group in self.get_monthly_series(index).groupby("ANO"):
+            if list(group["MES"]) != list(range(1, 13)):
+                continue
+            factor = math.prod(1 + float(v) for v in group["TAXA_MENSAL_DECIMAL"])
+            records.append({"ANO": year, "TAXA_ANUAL_PCT": (factor - 1) * 100,
+                            "FATOR_ANUAL": factor,
+                            "INDICE_DEZEMBRO": group["NUMERO_INDICE"].iloc[-1]})
+        return pd.DataFrame(records, columns=["ANO", "TAXA_ANUAL_PCT", "FATOR_ANUAL", "INDICE_DEZEMBRO"])
+
+    def calculate_month_window(self, reference_year: int, months: int,
+                               reference_month: int = 12, index: str = "INCC-M") -> dict:
+        """Compound exactly N calendar months ending in the reference month.
+
+        Missing months raise IndexCoverageError, including leading/interior gaps.
+        A zero-length window has factor 1; negative/noninteger lengths are invalid.
+        DATA_INICIO_CORRECAO denotes the first included rate; BASE_MONTH is excluded.
+        """
+        self._check_index(index)
+        if isinstance(months, bool) or not isinstance(months, int) or months < 0:
+            raise ValueError("months must be a nonnegative integer")
+        if not 1 <= reference_month <= 12:
+            raise ValueError("reference_month must be between 1 and 12")
+        end = pd.Period(year=reference_year, month=reference_month, freq="M")
+        base = end - months
+        expected = [str(base + n) for n in range(1, months + 1)]
+        values = self._monthly[self._monthly["index"] == index].set_index("date")["monthly_pct"]
+        available = {date[:7]: float(rate) for date, rate in values.items()}
+        missing = [month for month in expected if month not in available]
+        if missing:
+            raise IndexCoverageError(index, missing)
+        factor = math.prod(1 + available[month] / 100 for month in expected)
+        prefix = "INCC" if index == "INCC-M" else "IGPM"
+        return {"INDEX": index, "SGS_CODE": SUPPORTED_INDICES[index],
+                "FACTOR": factor, "INFLATION_PCT": (factor - 1) * 100,
+                f"FATOR_{prefix}": factor,
+                f"INFLACAO_ACUM_{prefix}_PCT": (factor - 1) * 100,
+                "MESES_RETROATIVOS": months,
+                "BASE_MONTH": str(base), "REFERENCE_MONTH": str(end),
+                "DATA_INICIO_CORRECAO": expected[0] + "-01" if expected else str(end.start_time.date()),
+                "STATUS": "official_window_complete"}
+
+    def calculate_cumulative_inflation(self, reference_year: int, age_years: float,
+                                       reference_month: int = 12,
+                                       index: str = "INCC-M") -> dict:
+        """Age proxy rounded to nearest month using Python round (ties to even)."""
+        if not math.isfinite(age_years) or age_years < 0:
+            raise ValueError("age_years must be finite and nonnegative")
+        months = int(round(age_years * 12))
+        return self.calculate_month_window(reference_year, months, reference_month, index)
+
+    def get_comparison_summary(self, years: list[int]) -> pd.DataFrame:
+        """Computed annual INCC-M/IGP-M; IPCA is unavailable, never fabricated."""
+        annual = {name: self.get_annual_rates(name).set_index("ANO")["TAXA_ANUAL_PCT"]
+                  for name in SUPPORTED_INDICES}
+        return pd.DataFrame([{"ANO": year,
+                              "INCC_ANUAL_PCT": annual["INCC-M"].get(year, float("nan")),
+                              "IGPM_ANUAL_PCT": annual["IGP-M"].get(year, float("nan")),
+                              "IPCA_ANUAL_PCT": float("nan")}
+                             for year in years])
+
+    @staticmethod
+    def retrieve_official_csv(serie_id: int, start_date: str, end_date: str,
+                              output_path: str | Path) -> dict:
+        """Explicit BCB SGS public download route; errors propagate, no fallback.
+
+        Dates use dd/mm/YYYY. The download is session-bound: GET selection,
+        POST consultarValores, GET downLoad. Caller reviews the response and adds
+        provenance to the package; this method never overwrites loaded observations.
+        """
+        if serie_id not in SUPPORTED_INDICES.values():
+            raise ValueError("Only verified SGS 7456 and 189 are supported")
+        start, end = (datetime.strptime(value, "%d/%m/%Y") for value in (start_date, end_date))
+        if start > end:
+            raise ValueError("start_date must not follow end_date")
+        opener = build_opener(HTTPCookieProcessor(CookieJar()))
+        selection = SGS_URL + "?" + urlencode({"method": "consultarGraficoPorId", "hdOidSeriesSelecionadas": serie_id})
+        query = SGS_URL + "?method=consultarValores"
+        download = SGS_URL + "?method=downLoad"
+        params = {"dataInicio": start_date, "dataFim": end_date, "selFuncao": 0,
+                  "selTipoArqDownload": 1, "hdOidSeriesSelecionadas": serie_id,
+                  "graficoEstatico": "true"}
+        started = datetime.now(timezone.utc).isoformat()
+        with opener.open(selection, timeout=30) as response:
+            response.read()
+        with opener.open(Request(query, data=urlencode(params).encode()), timeout=30) as response:
+            response.read()
+        with opener.open(download, timeout=30) as response:
+            payload = response.read()
+        _read_official_csv(payload, serie_id)
+        output = Path(output_path)
+        if output.exists():
+            raise FileExistsError("Preserve existing raw responses; choose a new output path")
+        output.parent.mkdir(parents=True, exist_ok=True)
+        output.write_bytes(payload)
+        record = {"file": output.name, "sgs_code": serie_id, "source": "FGV via BCB SGS",
+                  "selection_url": selection, "query_url": query, "post_parameters": params,
+                  "url": download, "request_started_utc": started,
+                  "response_saved_utc": datetime.now(timezone.utc).isoformat(),
+                  "sha256": hashlib.sha256(payload).hexdigest(), "bytes": len(payload)}
+        output.with_suffix(output.suffix + ".provenance.json").write_text(json.dumps(record, indent=2))
+        return record

@@ -1,113 +1,117 @@
-"""
-Módulo de Leitura e Estruturação de Demonstrações Financeiras Padronizadas (DFP) da CVM.
-Suporta leitura de BPA, DRE e DFC com deduplicação por versão mais recente e normalização de escala de moeda.
-"""
-
-import os
-import glob
+"""Strict official DFP selection; monetary results are millions of Brazilian reais."""
+from pathlib import Path
+import unicodedata
 import pandas as pd
-import numpy as np
-from typing import Dict, List, Optional, Tuple
-from .config import (
-    CD_CONTA_IMOBILIZADO_LIQ,
-    KEYWORDS_CUSTO_BRUTO,
-    KEYWORDS_DEP_ACUM,
-    KEYWORDS_IMOB_ANDAMENTO,
-    KEYWORDS_DFC_DEPRECIACAO,
-    CD_CONTA_EBT,
-    CD_CONTA_IR_CSLL,
-    CD_CONTA_LUCRO_LIQUIDO
-)
+
+BASE_COLUMNS = ['CNPJ_CIA', 'CD_CONTA', 'DS_CONTA', 'VL_CONTA', 'VERSAO',
+                'DT_REFER', 'DT_INI_EXERC', 'DT_FIM_EXERC', 'MOEDA',
+                'ESCALA_MOEDA', 'ORDEM_EXERC', 'VL_CONTA_AJUSTADO',
+                'SOURCE_FILE', 'SOURCE_ROW', 'SOURCE_VERSION', 'SOURCE_STATEMENT',
+                'SOURCE_YEAR', 'SOURCE_SCOPE', 'VALUE_UNIT', 'VALUE_CURRENCY']
+ANCHORS = {'BPA': {'1', '1.02.03'},
+           'DRE': {'3.01', '3.05', '3.07', '3.08', '3.11'},
+           'DFC_MI': {'6.01', '6.05'}}
+
+
+def _normal(value):
+    return ''.join(c for c in unicodedata.normalize('NFKD', str(value))
+                   if not unicodedata.combining(c)).strip().upper()
+
 
 class DFPParser:
-    def __init__(self, data_dir: str = "./cvm_data"):
+    def __init__(self, data_dir='./cvm_data'):
         self.data_dir = data_dir
 
-    def _read_csv(self, file_path: str) -> pd.DataFrame:
-        """Lê arquivo CSV da CVM tratando encoding Latin-1 e separador ponto-e-vírgula."""
-        if not os.path.exists(file_path):
-            return pd.DataFrame()
-        
-        dtype_spec = {
-            'CNPJ_CIA': str,
-            'CD_CVM': str,
-            'CD_CONTA': str,
-            'VERSAO': str
-        }
-        
-        df = pd.DataFrame()
-        try:
-            df = pd.read_csv(file_path, sep=';', encoding='ISO-8859-1', dtype=dtype_spec)
-        except Exception:
-            try:
-                df = pd.read_csv(file_path, sep=';', encoding='utf-8', dtype=dtype_spec)
-            except Exception as e:
-                print(f"[DFPParser] Erro ao ler {file_path}: {e}")
-                return pd.DataFrame()
+    def _empty(self):
+        return pd.DataFrame(columns=BASE_COLUMNS)
 
-        if not df.empty and 'CD_CONTA' in df.columns:
-            df['CD_CONTA'] = df['CD_CONTA'].astype(str).str.strip()
-        if not df.empty and 'CNPJ_CIA' in df.columns:
-            df['CNPJ_CIA'] = df['CNPJ_CIA'].astype(str).str.strip()
-
+    def _read_csv(self, file_path):
+        path = Path(file_path)
+        if not path.is_file():
+            return self._empty()
+        df = pd.read_csv(path, sep=';', encoding='latin1', dtype=str,
+                         keep_default_na=False)
+        df['SOURCE_FILE'] = str(path)
+        df['SOURCE_ROW'] = (pd.to_numeric(df['CVM_SOURCE_ZIP_ROW'], errors='raise')
+                            if 'CVM_SOURCE_ZIP_ROW' in df.columns else range(2, len(df) + 2))
         return df
 
-    def _clean_and_deduplicate(self, df: pd.DataFrame) -> pd.DataFrame:
-        """Filtra apenas último exercício e seleciona a versão mais recente por empresa/conta."""
+    def _clean_and_deduplicate(self, df, year=None, statement='BPA', consolidated=True):
         if df.empty:
-            return df
+            return self._empty()
+        required = {'CNPJ_CIA', 'CD_CONTA', 'VERSAO', 'MOEDA', 'ESCALA_MOEDA',
+                    'ORDEM_EXERC', 'DT_REFER', 'DT_FIM_EXERC', 'VL_CONTA', 'GRUPO_DFP'}
+        if statement != 'BPA':
+            required.add('DT_INI_EXERC')
+        missing = required - set(df.columns)
+        if missing:
+            raise ValueError(f'DFP missing source columns: {sorted(missing)}')
+        if year is None:
+            raise ValueError('An explicit calendar year is required')
+        df = df.copy()
+        for col in ['CNPJ_CIA', 'CD_CONTA', 'VERSAO']:
+            df[col] = df[col].str.strip()
+        scope = 'CONSOLIDAD' if consolidated else 'INDIVIDUA'
+        mask = (df.MOEDA.map(_normal).eq('REAL') &
+                df.ORDEM_EXERC.map(_normal).eq('ULTIMO') &
+                df.GRUPO_DFP.map(_normal).str.contains(scope, regex=False) &
+                df.DT_REFER.eq(f'{year}-12-31') & df.DT_FIM_EXERC.eq(f'{year}-12-31'))
+        if statement != 'BPA':
+            mask &= df.DT_INI_EXERC.eq(f'{year}-01-01')
+        df = df.loc[mask].copy()
+        if df.empty:
+            return self._empty()
+        df['_version'] = pd.to_numeric(df.VERSAO, errors='coerce')
+        if df['_version'].isna().any():
+            raise ValueError('Invalid DFP statement version')
+        df['_value'] = pd.to_numeric(df.VL_CONTA, errors='coerce')
+        selected = []
+        # Choose a single complete version for each company/statement. Never mix accounts.
+        for cnpj, company in df.groupby('CNPJ_CIA', sort=True):
+            for version in sorted(company['_version'].unique(), reverse=True):
+                candidate = company.loc[company['_version'].eq(version)].copy()
+                if candidate.CD_CONTA.duplicated().any():
+                    duplicates = candidate.loc[candidate.CD_CONTA.duplicated(False), 'CD_CONTA'].tolist()
+                    raise ValueError(f'Ambiguous duplicate DFP account: {cnpj}, version {version}: {duplicates}')
+                anchor_rows = candidate.set_index('CD_CONTA').reindex(sorted(ANCHORS[statement]))
+                if not ANCHORS[statement].issubset(set(candidate.CD_CONTA)) or anchor_rows['_value'].isna().any():
+                    continue
+                selected.append(candidate)
+                break
+        if not selected:
+            return self._empty()
+        result = pd.concat(selected, ignore_index=True)
+        scales = result.ESCALA_MOEDA.map(_normal)
+        factors = scales.map({'UNIDADE': 1e-6, 'UNIDADES': 1e-6, 'MIL': 1e-3,
+                              'MILHAR': 1e-3, 'MILHARES': 1e-3, 'MILHAO': 1.0,
+                              'MILHOES': 1.0})
+        if factors.isna().any():
+            raise ValueError(f'Unsupported currency scale: {sorted(scales[factors.isna()].unique())}')
+        result['VL_CONTA_AJUSTADO'] = result['_value'] * factors
+        result['SOURCE_VERSION'] = result['VERSAO']
+        result['SOURCE_STATEMENT'] = statement
+        result['SOURCE_YEAR'] = year
+        result['SOURCE_SCOPE'] = 'con' if consolidated else 'ind'
+        result['VALUE_UNIT'] = 'BRL million'
+        result['VALUE_CURRENCY'] = 'BRL'
+        return result.drop(columns=['_version', '_value']).sort_values(['CNPJ_CIA', 'CD_CONTA']).reset_index(drop=True)
 
-        # 1. Filtrar apenas fechamento do último exercício reportado
-        if 'ORDEM_EXERC' in df.columns:
-            df = df[df['ORDEM_EXERC'].str.upper() == 'ÚLTIMO'].copy()
-
-        # 2. Desempate por versão mais recente (reapresentações)
-        if 'VERSAO' in df.columns and 'CNPJ_CIA' in df.columns and 'CD_CONTA' in df.columns:
-            df['VERSAO_NUM'] = pd.to_numeric(df['VERSAO'], errors='coerce').fillna(1)
-            idx_max = df.groupby(['CNPJ_CIA', 'CD_CONTA'])['VERSAO_NUM'].transform('max') == df['VERSAO_NUM']
-            df = df[idx_max].drop(columns=['VERSAO_NUM']).copy()
-
-        # 3. Normalizar escala de moeda para Reais absolutos (R$)
-        if 'ESCALA_MOEDA' in df.columns and 'VL_CONTA' in df.columns:
-            mult = df['ESCALA_MOEDA'].astype(str).str.upper().apply(lambda x: 1000.0 if 'MIL' in x else 1.0)
-            df['VL_CONTA_AJUSTADO'] = pd.to_numeric(df['VL_CONTA'], errors='coerce').fillna(0.0) * mult
-        elif 'VL_CONTA' in df.columns:
-            df['VL_CONTA_AJUSTADO'] = pd.to_numeric(df['VL_CONTA'], errors='coerce').fillna(0.0)
-
-        return df
-
-    def parse_bpa(self, year: int, consolidated: bool = True) -> pd.DataFrame:
-        """Lê o Balanço Patrimonial Ativo (BPA) consolidado ou individual."""
-        suffix = "con" if consolidated else "ind"
-        pattern = os.path.join(self.data_dir, f"dfp_{year}", f"*BPA_{suffix}_{year}.csv")
-        files = glob.glob(pattern) or glob.glob(os.path.join(self.data_dir, f"*BPA_{suffix}_{year}.csv"))
-        
+    def _parse(self, year, statement, consolidated):
+        suffix = 'con' if consolidated else 'ind'
+        pattern = f'*{statement}_{suffix}_{year}.csv'
+        files = sorted((Path(self.data_dir) / f'dfp_{year}').glob(pattern))
+        # Legacy flat caches are not accepted as official selected annual sources.
         if not files:
-            return pd.DataFrame()
+            return self._empty()
+        if len(files) != 1:
+            raise ValueError(f'Ambiguous source files for {statement} {year}')
+        return self._clean_and_deduplicate(self._read_csv(files[0]), year, statement, consolidated)
 
-        df = self._read_csv(files[0])
-        return self._clean_and_deduplicate(df)
+    def parse_bpa(self, year, consolidated=True):
+        return self._parse(year, 'BPA', consolidated)
 
-    def parse_dre(self, year: int, consolidated: bool = True) -> pd.DataFrame:
-        """Lê a Demonstração do Resultado do Exercício (DRE)."""
-        suffix = "con" if consolidated else "ind"
-        pattern = os.path.join(self.data_dir, f"dfp_{year}", f"*DRE_{suffix}_{year}.csv")
-        files = glob.glob(pattern) or glob.glob(os.path.join(self.data_dir, f"*DRE_{suffix}_{year}.csv"))
-        
-        if not files:
-            return pd.DataFrame()
+    def parse_dre(self, year, consolidated=True):
+        return self._parse(year, 'DRE', consolidated)
 
-        df = self._read_csv(files[0])
-        return self._clean_and_deduplicate(df)
-
-    def parse_dfc(self, year: int, consolidated: bool = True) -> pd.DataFrame:
-        """Lê a Demonstração dos Fluxos de Caixa - Método Indireto (DFC-MI)."""
-        suffix = "con" if consolidated else "ind"
-        pattern = os.path.join(self.data_dir, f"dfp_{year}", f"*DFC_MI_{suffix}_{year}.csv")
-        files = glob.glob(pattern) or glob.glob(os.path.join(self.data_dir, f"*DFC_MI_{suffix}_{year}.csv"))
-        
-        if not files:
-            return pd.DataFrame()
-
-        df = self._read_csv(files[0])
-        return self._clean_and_deduplicate(df)
+    def parse_dfc(self, year, consolidated=True):
+        return self._parse(year, 'DFC_MI', consolidated)

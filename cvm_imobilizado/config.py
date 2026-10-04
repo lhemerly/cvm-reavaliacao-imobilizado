@@ -52,8 +52,8 @@ KEYWORDS_IMOB_ANDAMENTO = [
 
 # DRE / DFC Contas
 CD_CONTA_LUCRO_BRUTO: str = "3.03"
-CD_CONTA_EBT: str = "3.05"                             # Resultado Antes dos Tributos (LAIR)
-CD_CONTA_IR_CSLL: str = "3.07"                         # IRPJ e CSLL
+CD_CONTA_EBT: str = "3.07"                             # Resultado Antes dos Tributos (LAIR)
+CD_CONTA_IR_CSLL: str = "3.08"                         # IRPJ e CSLL
 CD_CONTA_LUCRO_LIQUIDO: str = "3.11"                   # Lucro Líquido Consolidado
 
 # DFC Método Indireto (DFC-MI)
@@ -65,3 +65,15 @@ KEYWORDS_DFC_DEPRECIACAO = [
 
 # Alíquota nominal modal de IRPJ + CSLL no Brasil
 TAX_RATE_MODAL: float = 0.34
+
+# Exact issuer holding identities. Amounts in the active pipeline are BRL millions.
+COMPANIES = {
+    "Vale": "33.592.510/0001-54",
+    "Petrobras": "33.000.167/0001-01",
+    "Gerdau": "33.611.500/0001-19",
+    "CSN": "33.042.730/0001-04",
+    "Suzano": "16.404.287/0001-55",
+    "Klabin": "89.637.490/0001-45",
+    "Eletrobras": "00.001.180/0001-26",
+    "Unigel": "05.303.439/0001-07",
+}

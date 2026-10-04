@@ -1,0 +1,390 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html locale="true" lang="en-us">
+ <script language="JavaScript">
+
+	var nomeContexto="sgspub"
+	var vFormatoData="dd/MM/yyyy"
+	var vFormatoNumerico="B"
+
+	var msgSelecioneSerie="Select a series."
+	var msgSelecioneSerie="Select a series."
+	var msgSelecioneApenasUmaSerie="Select only one series."
+	var msgDigiteDataInicio="Type valid start date."
+	var msgDigiteDataFim="Type valid end date."
+	var msgDataInicioPostDatafim="Start date can not be posterior to end date."
+	var msgShiftDesabilitado="Shift-click disabled."
+	var msgBotaoDireitoDesabilitado="Right-click disabled."
+	var msgDigiteDescricaoFiltro="Type a description."
+	var msgDigiteNomeFiltro="Type a name."
+	var msgSelecioneFiltro="Select a list."
+	var msgConfirmaExclusaoFiltro="Confirm deletion?"
+	var msgCaracteresRestantes="Remaining characters:&nbsp;"
+	var msgMaxQtdSeriesSelecao="You selected more than 1000 series. Please, reduce the amount of series to be consulted."
+
+	var msgJaneiro="january"
+	var msgFevereiro="february"
+	var msgMarco="march"
+	var msgAbril="april"
+	var msgMaio="may"
+	var msgJunho="june"
+	var msgJulho="july"
+	var msgAgosto="august"
+	var msgSetembro="september"
+	var msgOutubro="october"
+	var msgNovembro="november"
+	var msgDezembro="december"
+	var msgHoje="Today"
+	var msgISegunda="M"
+	var msgITerca="T"
+	var msgIQuarta="W"
+	var msgIQuinta="T"
+	var msgISexta="F"
+	var msgISabado="S"
+	var msgIDomingo="S"
+	var msgSegunda="Monday"
+	var msgTerca="Tuesday"
+	var msgQuarta="Wednesday"
+	var msgQuinta="Thursday"
+	var msgSexta="Friday"
+	var msgSabado="Saturday"
+	var msgDomingo="Sunday"
+ </script>
+<head>
+  
+  <title>Time Series Management System</title>
+  <link rel="stylesheet" type="text/css" href="/css/sistema.css">
+  
+  
+
+
+
+
+<script type="text/javascript"><!--
+
+var isFrame=false;
+//-->
+</script>
+<script type="text/javascript" src="/sgspub/js/menu2base.js"></script>
+<script type="text/javascript" src="/sgspub/js/basico.js"></script>
+<script type="text/javascript" src="/sgspub/js/validadata.js"></script>
+<script type="text/javascript" src="/sgspub/js/sgs.js"></script>
+<script type='text/javascript' defer>
+//<!--
+//---Menu---
+function retAm(it){
+  // Informe o nome do array correspondente ao identificador
+  var wIt=it+""
+  switch (wIt){
+
+    case '1':return aM1
+    case '2':return aM2
+    case '3':return aM3
+    case '4':return aM4
+
+    case '1_1':return aM1_1
+    
+
+
+    case '5':return null
+
+
+
+
+    case '5_1':return null
+
+
+    default:return false
+
+  }
+}
+
+function abrirAjudaSistema(){
+	top.newWin = window.open("/sgspub/JSP/sgsgeral/sgsAjudaIng.jsp","Help", "resizable=yes,dependent=yes,scrollbars=yes,toolbar=0,height=400");
+}
+
+function abrirFaleConosco(){
+	top.newWin = window.open("http://www4.bcb.gov.br/ContactUs.asp?CONTACTUS","Help", "menubar=yes,location=yes,status=yes,resizable=yes,dependent=yes,scrollbars=yes,toolbar=yes,height=400");
+}
+
+if (isMenu) {
+
+aM1 = new Array(155,0,0,"black","#0066ff","#eeeeee","white","#0066ff","#d0d0d0"
+	,"Series","/sgspub/consultarvalores/telaCvsSelecionarSeries.paint",0,0
+	,"Metadata (definitions, methodologies, etc.)","/sgspub/consultarmetadados/telaCmsSelecionarSeries.paint",0,0
+	,"Economic and financial statistics","#",1,1
+)
+
+aM1_1 = new Array(
+		"Interest rates","/sgspub/pefi300/telaCtjSelecao.paint",0,0
+		,"Saving deposits","/sgspub/pefi300/telaCadernetaPoupanca.paint",0,0
+		,"Dolar/Gold","/sgspub/pefi300/telaCdoSelecao.paint",0,0
+		,"Investments","/sgspub/pefi300/telaAplicacoesFinanceiras.paint",0,0
+	)
+
+aM2 = new Array(155,0,0,"black","#0066ff","#eeeeee","white","#0066ff","#d0d0d0"
+	,"Create","/sgspub/manterfiltros/telaMfsCriarFiltro.paint",0,0
+	,"Edit","/sgspub/manterfiltros/listarFiltrosUsuario.do?method=listarFiltrosAlterar",0,0
+	,"Delete","/sgspub/manterfiltros/listarFiltrosUsuario.do?method=listarFiltrosExcluir",0,0
+	,"View","/sgspub/manterfiltros/listarFiltrosUsuario.do?method=listarFiltrosUsuario",0,0
+)
+
+aM3 = new Array(155,0,0,"black","#0066ff","#eeeeee","white","#0066ff","#d0d0d0"
+	,"Environment","/sgspub/configurarambiente/telaCamConfiguracoes.paint",0,0
+)
+aM4 = new Array(155,0,0,"black","#0066ff","#eeeeee","white","#0066ff","#d0d0d0"
+	,"System help","javascript:abrirAjudaSistema();",0,0
+	,"Contact us","javascript:abrirFaleConosco();",0,0
+)
+aM5 = new Array(155,0,0,"black","#0066ff","#eeeeee","white","#0066ff","#d0d0d0"
+
+)
+
+
+
+// iniciando o menu
+iniciaMenu();
+}
+//-->
+</script>
+
+</head>
+<body class="menu">
+  
+
+
+
+
+
+<script type="text/javascript" src="/sgspub/js/sgs.js"></script>
+<script language="Javascript">
+function getDt(){
+	dt=new Date();
+	hrs=dt.getHours();
+	min=dt.getMinutes();
+	sec=dt.getSeconds();
+	Tm=" "+((hrs<10)?"0":"") +hrs+":";
+	Tm+=((min<10)?"0":"")+min+":";
+	Tm+=((sec<10)?"0":"")+sec+" ";
+	document.frmHora.txCabecalhoHora.value=Tm;
+}
+</script>
+
+<a name="Top"></a>
+<table cellpadding="4" cellspacing="0" border='0' bordercolor="#FFFFFF" width='100%'>
+    <tr>
+    <td class="cab">
+      <a href="/sgspub/">
+      <img style="margin-left:3px;margin-top:3px" src="/img/logoSistemas.gif">
+      </a>
+    </td>
+    <td  class="cab" width="80%" align="left">
+      <div class="txN">Time Series Management System - v2.1</div>
+      <div class="tx">Public module</div>
+    </td>
+    <td class="cab" nowrap="true" align="right">
+      <div class="tx" style="margin-right:3px">Public user</div>
+      <div class="txP" style="margin-right:3px">
+	04/10/2026 10:27
+      </div>
+      <a href=javascript:alterarIdioma('P'); title='Change language to portuguese'>
+      	<div class="fundoPadraoAClaro3" align="center" style="margin-right:3px margin-left:3px;margin-top:3px">
+		<span class='textoPequeno' style='color:#003366'>
+		Português
+		</span>
+      	</div>
+      </a>
+    </td>
+    </tr>
+</table>
+  
+
+
+
+
+
+<table cellspacing=0 cellpadding=0 class="semBorda" width='100%'>
+    <tr class=transp>
+        <td colspan=3 align=left class=fuM>
+        <span id=omenu>
+          	<span class=lkM><a href="javascript:void(0)" onmouseout="popDown('eM1')" onmouseover="popUp('eM1',event)">Search</a></span>|
+          	<span class=lkM><a href="javascript:void(0)" onmouseout="popDown('eM2')" onmouseover="popUp('eM2',event)">My series lists</a></span>|
+			<span class=lkM><a href="javascript:void(0)" onmouseout="popDown('eM3')" onmouseover="popUp('eM3',event)">Configuration</a></span>|
+			<span class=lkM><a href="javascript:void(0)" onmouseout="popDown('eM4')" onmouseover="popUp('eM4',event)">Help</a></span>|
+        </span>
+        </td>
+    </tr>
+</table>
+
+  
+
+
+
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/estilos/Sgs.css">
+
+
+<html>
+<head>
+<script language="JavaScript" src="../js/cmiConsultarMetadados.js"></script>
+<script language="JavaScript">
+
+function resize() {
+    var htmlheight = document.body.parentNode.clientHeight;
+    var clientHeight = document.body.clientHeight;
+    var tblMetadados = document.getElementById("tblMetadados");
+    
+    htmlheight = clientHeight - 200;
+    tblMetadados.style.height = htmlheight + "px";
+
+    originalResize();
+}
+
+var originalOnload = document.body.onload;
+var originalResize;
+
+document.body.onload = init;
+function init() {
+	originalOnload();
+	originalResize = document.body.onresize;
+	document.body.onresize = resize;
+	resize();
+}
+
+</script>
+</head>
+<body>
+<div>
+	<div>	<span class='trilhaNav' style='float:left'>		<a href=/sgspub/ target='_top'>Initial		</a>		<img src='/img/seta.gif' border='0'>		<a href=/sgspub/consultarmetadados/telaCmsSelecionarSeries.paint target='_top'>Series metadata search		</a>		<img src='/img/seta.gif' border='0'>Basic data and metadata   </span></div>
+   	<span style="float:right">
+     	<span class="codTela">[SGSFW2202]&nbsp;&nbsp;</span>
+	    <span class="fundoPadraoAEscuro3">&nbsp;
+		<a href="#" onclick="top.newWin = window.open('/sgspub/JSP/sgsgeral/sgsAjudaIng.jsp#PM','Ajuda', 'resizable=yes,dependent=yes,scrollbars=yes,toolbar=0,height=400')">
+	      		<img alt="Show system help" src="/img/fundoclaro/glos2.gif">
+		</a>&nbsp;
+	    </span>&nbsp;&nbsp;
+    </span>
+</div>&nbsp;
+
+<center>
+<div class="titulo1">Series metadata search</div>
+<div class="titulo3">Passo 2 de 2 - Basic data and metadata of series&nbsp;7447</div>
+
+<br>
+<div id='abaDadosBasicos' style='visibility:visible'>
+	<table border="0" cellspacing="0" width="95%">
+		<tr>
+			<td align="left">
+				<table cellpadding=0 cellspacing=0 style="width:100%" border=0>
+					<tr>
+						<td class="mtaba">Basic data</td>
+						<td style="border-bottom:solid 1px black;"><span style="width:2px"></span></td>
+						<td class="mtabi"><a href="javascript:escolherAba('abaMetadados')" target='_top'>Metadata</a></td>
+						<td style="border-bottom:solid 1px black;">&nbsp;</td>
+						<td style="border-bottom:solid 1px black;">&nbsp;</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td style="border:solid 1px black;border-top:0px;">
+				<br>
+			    <iframe name="iDadosBasicos" align="center" marginwidth=0 marginheight=0
+	        	    src="/sgspub/JSP/consultarmetadados/cmiDadosBasicos.jsp" frameborder=0
+	            	width="100%" scrolling="auto" height="500">
+	            </iframe>
+			</td>
+		</tr>
+	</table>
+</div>
+<div id='abaMetadados' style='visibility:hidden'>
+	<table id="tblMetadados" border="0" cellspacing="0" width="95%">
+		<tr>
+			<td align="left">
+				<table cellpadding=0 cellspacing=0 style="width:100%" border=0>
+					<tr>
+						<td class="mtabi"><a href="javascript:escolherAba('abaDadosBasicos')" target='_top'>Basic data</a></td>
+						<td style="border-bottom:solid 1px black;"><span style="width:2px"></span></td>
+						<td class="mtaba">Metadata</td>
+						<td style="border-bottom:solid 1px black;">&nbsp;</td>
+						<td style="border-bottom:solid 1px black;">&nbsp;</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td style="border:solid 1px black;border-top:0px;height:100%">
+				<br>
+			    <iframe name="iMetadados" align="center" marginwidth=0 marginheight=0
+	        	    src="/sgspub/JSP/consultarmetadados/cmiMetadados.jsp" frameborder=0
+	            	width="100%" scrolling="auto" height="100%">
+	            </iframe>
+			</td>
+		</tr>
+	</table>
+</div>
+</center>
+
+</body>
+</html>
+  <!--
+<br><br><br><br><br><br><br><br><br><br><br><br><br>
+<p align="center"><span class="titulo1">System unavailable. Possible return: 02/26/2007 at 07:00.</span></p>-->
+  
+
+
+
+
+<DIV class='naoimprime' id=toolBar style='width:70;POSITION:absolute;left:-200;font-size:1;'>
+     <span id="navLargura" style="white-space:nowrap;padding-top:1;height:20;">
+	<a href="#"><img valign='middle' src="/img/home/navtopo.gif" title='Go to the top' alt='Go to the top' style="border:solid 1 white"></a>
+	<a href="#Bot"><img valign='middle' src="/img/home/navbase.gif" title='Go to the bottom' alt='Go to the bottom' style="border:solid 1 white"></a>
+        <a href="javascript:history.back();"><img valign="middle" src="/img/home/navvolta.gif" title='Back a page' alt='Back a page' style="border:solid 1 white"></a>
+        <a href="/sgspub/" target="_top"><img valign="middle" src="/img/home/navinicial.gif" title='Go to the homepage' alt='Go to the homepage' style="border:solid 1 white"></a>
+        <a href="javascript:window.print();"><img valign="middle" src="/img/home/navimprimir.gif" title='Print page' alt='Print page' style="border:solid 1 white"></a>
+     </span>
+</DIV>
+
+<a name="Bot"/>
+
+<script>
+  javascript:inicial();
+</script>
+  <input name="bilQtde" type="hidden" value="1" size="1">
+</body>
+</html>
